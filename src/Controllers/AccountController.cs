@@ -21,9 +21,17 @@ namespace AlbedoTeam.Accounts.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Account>>> List([FromQuery] bool showDeleted)
+        public async Task<ActionResult<PagedAccounts>> List(
+            [FromQuery] bool showDeleted,
+            [FromQuery] int? page,
+            [FromQuery] int? pageSize)
         {
-            var response = await _mediator.Send(new ListAccounts {ShowDeleted = showDeleted});
+            var response = await _mediator.Send(new ListAccounts
+            {
+                ShowDeleted = showDeleted,
+                Page = page ?? 1,
+                PageSize = pageSize ?? 1
+            });
 
             if (response.HasError)
                 return BadRequest(response.Errors);

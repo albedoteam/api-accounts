@@ -10,7 +10,7 @@ using MassTransit;
 
 namespace AlbedoTeam.Accounts.Api.Services.AccountService.Handlers
 {
-    public class ListHandler : QueryHandler<ListAccounts, List<Account>>
+    public class ListHandler : QueryHandler<ListAccounts, PagedAccounts>
     {
         private readonly IRequestClient<ListAccountsRequest> _client;
         private readonly IAccountMapper _mapper;
@@ -21,7 +21,7 @@ namespace AlbedoTeam.Accounts.Api.Services.AccountService.Handlers
             _mapper = mapper;
         }
 
-        protected override async Task<List<Account>> Handle(ListAccounts request)
+        protected override async Task<PagedAccounts> Handle(ListAccounts request)
         {
             var (itemsResponse, notFoundResponse) =
                 await _client.GetResponse<ListAccountsResponse, AccountNotFound>(
@@ -29,8 +29,15 @@ namespace AlbedoTeam.Accounts.Api.Services.AccountService.Handlers
 
             if (itemsResponse.IsCompletedSuccessfully)
             {
-                var items = (await itemsResponse).Message.Items;
-                return _mapper.MapResponseToModel(items);
+                var response = (await itemsResponse).Message;
+                return new PagedAccounts
+                {
+                    Page = response.Page,
+                    PageSize = response.PageSize,
+                    TotalPages = response.TotalPages,
+                    RecordsInPage = response.RecordsInPage,
+                    Items = _mapper.MapResponseToModel(response.Items)
+                };
             }
 
             await notFoundResponse;
