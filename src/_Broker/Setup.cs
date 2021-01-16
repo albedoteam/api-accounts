@@ -3,7 +3,7 @@ using AlbedoTeam.Sdk.MessageProducer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Accounts.Api._Broker
+namespace AlbedoTeam.Accounts.Api._Broker
 {
     internal static class Setup
     {

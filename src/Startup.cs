@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
-using Accounts.Api._Broker;
+using AlbedoTeam.Accounts.Api._Broker;
+using AlbedoTeam.Accounts.Api.Mappers;
 using AlbedoTeam.Sdk.Documentation;
 using AlbedoTeam.Sdk.ExceptionHandler;
 using AlbedoTeam.Sdk.FailFast;
@@ -10,9 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using src.Mappers;
 
-namespace Accounts.Api
+namespace AlbedoTeam.Accounts.Api
 {
     public class Startup
     {

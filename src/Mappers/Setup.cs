@@ -1,7 +1,7 @@
-﻿using Accounts.Api.Mappers.Abstractions;
+﻿using AlbedoTeam.Accounts.Api.Mappers.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace src.Mappers
+namespace AlbedoTeam.Accounts.Api.Mappers
 {
     public static class Setup
     {

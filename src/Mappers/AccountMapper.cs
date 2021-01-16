@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using Accounts.Api._Broker.Events;
-using Accounts.Api.Mappers.Abstractions;
-using Accounts.Api.Models;
-using Accounts.Api.Services.AccountService.Requests;
 using Accounts.Contracts.Requests;
 using Accounts.Contracts.Responses;
+using AlbedoTeam.Accounts.Api.Mappers.Abstractions;
+using AlbedoTeam.Accounts.Api.Models;
+using AlbedoTeam.Accounts.Api.Services.AccountService.Requests;
 using AutoMapper;
 
-namespace src.Mappers
+namespace AlbedoTeam.Accounts.Api.Mappers
 {
     public class AccountMapper : IAccountMapper
     {
