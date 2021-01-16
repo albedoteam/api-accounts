@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Accounts.Api._Broker.Events;
 using Accounts.Api.Mappers.Abstractions;
 using Accounts.Api.Models;
 using Accounts.Api.Services.AccountService.Requests;
@@ -25,9 +26,21 @@ namespace src.Mappers
                 cfg.CreateMap<UpdateAccount, UpdateAccountRequest>().ReverseMap();
                 cfg.CreateMap<GetAccount, GetAccountRequest>().ReverseMap();
                 cfg.CreateMap<ListAccounts, ListAccountsRequest>().ReverseMap();
+                cfg.CreateMap<Account, AccountDeleted>().ReverseMap();
+                cfg.CreateMap<Account, AccountUpdated>().ReverseMap();
             });
 
             _mapper = config.CreateMapper();
+        }
+
+        public Account MapResponseToModel(AccountDeleted response)
+        {
+            return _mapper.Map<AccountDeleted, Account>(response);
+        }
+
+        public Account MapResponseToModel(AccountUpdated response)
+        {
+            return _mapper.Map<AccountUpdated, Account>(response);
         }
 
         public Account MapResponseToModel(AccountResponse response)

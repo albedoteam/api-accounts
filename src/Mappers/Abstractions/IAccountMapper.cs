@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Accounts.Api._Broker.Events;
 using Accounts.Api.Models;
 using Accounts.Api.Services.AccountService.Requests;
 using Accounts.Contracts.Requests;
@@ -18,5 +19,7 @@ namespace Accounts.Api.Mappers.Abstractions
         UpdateAccountRequest MapRequestToBroker(UpdateAccount request);
         GetAccountRequest MapRequestToBroker(GetAccount request);
         ListAccountsRequest MapRequestToBroker(ListAccounts request);
+        Account MapResponseToModel(AccountDeleted response);
+        Account MapResponseToModel(AccountUpdated response);
     }
 }

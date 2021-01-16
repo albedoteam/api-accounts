@@ -1,16 +1,38 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Accounts.Api._Broker.Events;
+using Accounts.Api.Mappers.Abstractions;
 using Accounts.Api.Models;
 using Accounts.Api.Services.AccountService.Requests;
+using Accounts.Contracts.Responses;
 using AlbedoTeam.Sdk.FailFast.Abstractions;
+using MassTransit;
 
-namespace src.Services.AccountService.Handlers
+namespace Accounts.Api.Services.AccountService.Handlers
 {
     public class UpdateHandler : CommandHandler<UpdateAccount, Account>
     {
-        protected override Task<Account> Handle(UpdateAccount request)
+        private readonly IRequestClient<UpdateAccount> _client;
+        private readonly IAccountMapper _mapper;
+
+        public UpdateHandler(IRequestClient<UpdateAccount> client, IAccountMapper mapper)
         {
-            throw new NotImplementedException();
+            _client = client;
+            _mapper = mapper;
+        }
+
+        protected override async Task<Account> Handle(UpdateAccount request)
+        {
+            var (todoUpdatedResponse, todoNotFoundResponse) =
+                await _client.GetResponse<AccountUpdated, AccountNotFound>(_mapper.MapRequestToBroker(request));
+
+            if (todoUpdatedResponse.IsCompletedSuccessfully)
+            {
+                var todoUpdated = (await todoUpdatedResponse).Message;
+                return _mapper.MapResponseToModel(todoUpdated);
+            }
+
+            await todoNotFoundResponse;
+            return null; // returning null the Response.NotFound will be true
         }
     }
 }

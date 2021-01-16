@@ -1,16 +1,39 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Accounts.Api.Mappers.Abstractions;
 using Accounts.Api.Models;
 using Accounts.Api.Services.AccountService.Requests;
+using Accounts.Contracts.Requests;
+using Accounts.Contracts.Responses;
+using AlbedoTeam.Sdk.ExceptionHandler.Exceptions;
 using AlbedoTeam.Sdk.FailFast.Abstractions;
+using MassTransit;
 
-namespace src.Services.AccountService.Handlers
+namespace Accounts.Api.Services.AccountService.Handlers
 {
     public class CreateHandler : CommandHandler<CreateAccount, Account>
     {
-        protected override Task<Account> Handle(CreateAccount request)
+        private readonly IRequestClient<CreateAccountRequest> _client;
+        private readonly IAccountMapper _mapper;
+
+        public CreateHandler(IRequestClient<CreateAccountRequest> client, IAccountMapper mapper)
         {
-            throw new NotImplementedException();
+            _client = client;
+            _mapper = mapper;
+        }
+
+        protected override async Task<Account> Handle(CreateAccount request)
+        {
+            var (todoResponse, todoExistsResponse) =
+                await _client.GetResponse<AccountResponse, AccountExistsResponse>(_mapper.MapRequestToBroker(request));
+
+            if (todoExistsResponse.IsCompletedSuccessfully)
+            {
+                await todoExistsResponse;
+                throw new ResourceExistsException();
+            }
+
+            var todo = await todoResponse;
+            return _mapper.MapResponseToModel(todo.Message);
         }
     }
 }
