@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AlbedoTeam.Accounts.Api.Models;
 using AlbedoTeam.Accounts.Api.Services.AccountService.Requests;
 using MediatR;

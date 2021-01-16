@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Accounts.Contracts.Requests;
 using Accounts.Contracts.Responses;
 using AlbedoTeam.Accounts.Api.Mappers.Abstractions;
