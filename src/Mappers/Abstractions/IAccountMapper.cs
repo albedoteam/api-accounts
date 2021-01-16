@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Accounts.Api._Broker.Events;
+using Accounts.Contracts.Events;
 using Accounts.Contracts.Requests;
 using Accounts.Contracts.Responses;
 using AlbedoTeam.Accounts.Api.Models;

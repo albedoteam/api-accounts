@@ -15,5 +15,9 @@
       <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="_Broker\Contracts" />
+    </ItemGroup>
+
 
 </Project>

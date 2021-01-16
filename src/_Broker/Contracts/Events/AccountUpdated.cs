@@ -1,4 +1,4 @@
-﻿namespace Accounts.Api._Broker.Events
+﻿namespace Accounts.Contracts.Events
 {
     public interface AccountUpdated
     {
