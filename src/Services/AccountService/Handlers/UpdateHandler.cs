@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Accounts.Contracts.Events;
+using Accounts.Contracts.Requests;
 using Accounts.Contracts.Responses;
 using AlbedoTeam.Accounts.Api.Mappers.Abstractions;
 using AlbedoTeam.Accounts.Api.Models;
@@ -11,10 +12,10 @@ namespace AlbedoTeam.Accounts.Api.Services.AccountService.Handlers
 {
     public class UpdateHandler : CommandHandler<UpdateAccount, Account>
     {
-        private readonly IRequestClient<UpdateAccount> _client;
+        private readonly IRequestClient<UpdateAccountRequest> _client;
         private readonly IAccountMapper _mapper;
 
-        public UpdateHandler(IRequestClient<UpdateAccount> client, IAccountMapper mapper)
+        public UpdateHandler(IRequestClient<UpdateAccountRequest> client, IAccountMapper mapper)
         {
             _client = client;
             _mapper = mapper;
