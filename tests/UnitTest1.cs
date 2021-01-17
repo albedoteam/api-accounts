@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace AlbedoTeam.Accounts.Api.Tests
+namespace Accounts.Api.Tests
 {
     public class UnitTest1
     {

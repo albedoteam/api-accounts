@@ -1,4 +1,4 @@
-﻿namespace Accounts.Contracts.Responses
+﻿namespace Accounts.Responses
 {
     public interface AccountNotFound
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AlbedoTeam.Accounts.Api.Models
+namespace Accounts.Api.Models
 {
     public class Account
     {

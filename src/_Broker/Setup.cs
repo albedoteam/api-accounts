@@ -1,9 +1,9 @@
-﻿using Accounts.Contracts.Requests;
+﻿using Accounts.Requests;
 using AlbedoTeam.Sdk.MessageProducer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AlbedoTeam.Accounts.Api._Broker
+namespace Accounts.Api._Broker
 {
     internal static class Setup
     {

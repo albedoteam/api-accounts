@@ -1,4 +1,4 @@
-﻿namespace Accounts.Contracts.Requests
+﻿namespace Accounts.Requests
 {
     public interface DeleteAccountRequest
     {

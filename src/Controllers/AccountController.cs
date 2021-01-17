@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using AlbedoTeam.Accounts.Api.Models;
-using AlbedoTeam.Accounts.Api.Services.AccountService.Requests;
+using Accounts.Api.Models;
+using Accounts.Api.Services.AccountService.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
-namespace AlbedoTeam.Accounts.Api.Controllers
+namespace Accounts.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

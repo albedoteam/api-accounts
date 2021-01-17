@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AlbedoTeam.Accounts.Api.Models
+namespace Accounts.Api.Models
 {
     public class PagedAccounts
     {

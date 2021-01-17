@@ -1,14 +1,14 @@
 ﻿using System.Threading.Tasks;
-using Accounts.Contracts.Events;
-using Accounts.Contracts.Requests;
-using Accounts.Contracts.Responses;
-using AlbedoTeam.Accounts.Api.Mappers.Abstractions;
-using AlbedoTeam.Accounts.Api.Models;
-using AlbedoTeam.Accounts.Api.Services.AccountService.Requests;
+using Accounts.Api.Mappers.Abstractions;
+using Accounts.Api.Models;
+using Accounts.Api.Services.AccountService.Requests;
+using Accounts.Events;
+using Accounts.Requests;
+using Accounts.Responses;
 using AlbedoTeam.Sdk.FailFast.Abstractions;
 using MassTransit;
 
-namespace AlbedoTeam.Accounts.Api.Services.AccountService.Handlers
+namespace Accounts.Api.Services.AccountService.Handlers
 {
     public class DeleteHandler : CommandHandler<DeleteAccount, Account>
     {

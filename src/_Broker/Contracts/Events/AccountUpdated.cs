@@ -1,4 +1,4 @@
-﻿namespace Accounts.Contracts.Events
+﻿namespace Accounts.Events
 {
     public interface AccountUpdated
     {

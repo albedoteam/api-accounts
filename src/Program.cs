@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace AlbedoTeam.Accounts.Api
+namespace Accounts.Api
 {
     public class Program
     {

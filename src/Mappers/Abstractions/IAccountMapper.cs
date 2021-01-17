@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Accounts.Contracts.Events;
-using Accounts.Contracts.Requests;
-using Accounts.Contracts.Responses;
-using AlbedoTeam.Accounts.Api.Models;
-using AlbedoTeam.Accounts.Api.Services.AccountService.Requests;
+using Accounts.Api.Models;
+using Accounts.Api.Services.AccountService.Requests;
+using Accounts.Events;
+using Accounts.Requests;
+using Accounts.Responses;
 
-namespace AlbedoTeam.Accounts.Api.Mappers.Abstractions
+namespace Accounts.Api.Mappers.Abstractions
 {
     public interface IAccountMapper
     {

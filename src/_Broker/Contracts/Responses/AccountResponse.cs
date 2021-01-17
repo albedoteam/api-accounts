@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Accounts.Contracts.Responses
+namespace Accounts.Responses
 {
     public interface AccountResponse
     {

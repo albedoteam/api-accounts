@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Accounts.Contracts.Responses
+namespace Accounts.Responses
 {
     public interface ListAccountsResponse
     {
