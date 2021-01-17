@@ -22,12 +22,12 @@ namespace Accounts.Api.Services.AccountService.Handlers
 
         protected override async Task<Account> Handle(GetAccount request)
         {
-            var (todoResponse, notFoundResponse) =
+            var (accountResponse, notFoundResponse) =
                 await _client.GetResponse<AccountResponse, AccountNotFound>(_mapper.MapRequestToBroker(request));
 
-            if (todoResponse.IsCompletedSuccessfully)
+            if (accountResponse.IsCompletedSuccessfully)
             {
-                var item = await todoResponse;
+                var item = await accountResponse;
                 return _mapper.MapResponseToModel(item.Message);
             }
 

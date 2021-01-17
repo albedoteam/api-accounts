@@ -23,16 +23,16 @@ namespace Accounts.Api.Services.AccountService.Handlers
 
         protected override async Task<Account> Handle(DeleteAccount request)
         {
-            var (todoDeletedResponse, todoNotFoundResponse) =
+            var (accountDeletedResponse, accountNotFoundResponse) =
                 await _client.GetResponse<AccountDeleted, AccountNotFound>(_mapper.MapRequestToBroker(request));
 
-            if (todoDeletedResponse.IsCompletedSuccessfully)
+            if (accountDeletedResponse.IsCompletedSuccessfully)
             {
-                var todoDeleted = (await todoDeletedResponse).Message;
-                return _mapper.MapResponseToModel(todoDeleted);
+                var accountDeleted = (await accountDeletedResponse).Message;
+                return _mapper.MapResponseToModel(accountDeleted);
             }
 
-            await todoNotFoundResponse;
+            await accountNotFoundResponse;
             return null; // returning null the Response.NotFound will be true
         }
     }

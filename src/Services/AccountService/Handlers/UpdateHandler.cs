@@ -23,16 +23,16 @@ namespace Accounts.Api.Services.AccountService.Handlers
 
         protected override async Task<Account> Handle(UpdateAccount request)
         {
-            var (todoUpdatedResponse, todoNotFoundResponse) =
+            var (accountUpdatedResponse, accountNotFoundResponse) =
                 await _client.GetResponse<AccountUpdated, AccountNotFound>(_mapper.MapRequestToBroker(request));
 
-            if (todoUpdatedResponse.IsCompletedSuccessfully)
+            if (accountUpdatedResponse.IsCompletedSuccessfully)
             {
-                var todoUpdated = (await todoUpdatedResponse).Message;
-                return _mapper.MapResponseToModel(todoUpdated);
+                var accountUpdated = (await accountUpdatedResponse).Message;
+                return _mapper.MapResponseToModel(accountUpdated);
             }
 
-            await todoNotFoundResponse;
+            await accountNotFoundResponse;
             return null; // returning null the Response.NotFound will be true
         }
     }

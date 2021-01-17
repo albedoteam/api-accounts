@@ -23,17 +23,17 @@ namespace Accounts.Api.Services.AccountService.Handlers
 
         protected override async Task<Account> Handle(CreateAccount request)
         {
-            var (todoResponse, todoExistsResponse) =
-                await _client.GetResponse<AccountResponse, AccountExistsResponse>(_mapper.MapRequestToBroker(request));
+            var (accountResponse, accountExistsResponse) =
+                await _client.GetResponse<AccountResponse, AccountExists>(_mapper.MapRequestToBroker(request));
 
-            if (todoExistsResponse.IsCompletedSuccessfully)
+            if (accountExistsResponse.IsCompletedSuccessfully)
             {
-                await todoExistsResponse;
+                await accountExistsResponse;
                 throw new ResourceExistsException();
             }
 
-            var todo = await todoResponse;
-            return _mapper.MapResponseToModel(todo.Message);
+            var account = await accountResponse;
+            return _mapper.MapResponseToModel(account.Message);
         }
     }
 }
