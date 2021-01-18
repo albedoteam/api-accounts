@@ -24,7 +24,7 @@ namespace Accounts.Api.Mappers
                 cfg.CreateMap<Create, CreateAccount>().ReverseMap();
                 cfg.CreateMap<Delete, DeleteAccount>().ReverseMap();
                 cfg.CreateMap<Update, UpdateAccount>().ReverseMap();
-                cfg.CreateMap<Get, GetAccountRequest>().ReverseMap();
+                cfg.CreateMap<Get, GetAccount>().ReverseMap();
                 cfg.CreateMap<List, ListAccounts>().ReverseMap();
                 cfg.CreateMap<Account, AccountDeleted>().ReverseMap();
                 cfg.CreateMap<Account, AccountUpdated>().ReverseMap();
@@ -68,9 +68,9 @@ namespace Accounts.Api.Mappers
             return _mapper.Map<Update, UpdateAccount>(request);
         }
 
-        public GetAccountRequest MapRequestToBroker(Get request)
+        public GetAccount MapRequestToBroker(Get request)
         {
-            return _mapper.Map<Get, GetAccountRequest>(request);
+            return _mapper.Map<Get, GetAccount>(request);
         }
 
         public ListAccounts MapRequestToBroker(List request)

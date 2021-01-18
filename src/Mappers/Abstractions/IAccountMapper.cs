@@ -19,7 +19,7 @@ namespace Accounts.Api.Mappers.Abstractions
         CreateAccount MapRequestToBroker(Create request);
         DeleteAccount MapRequestToBroker(Delete request);
         UpdateAccount MapRequestToBroker(Update request);
-        GetAccountRequest MapRequestToBroker(Get request);
+        GetAccount MapRequestToBroker(Get request);
         ListAccounts MapRequestToBroker(List request);
     }
 }

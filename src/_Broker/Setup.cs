@@ -16,7 +16,7 @@ namespace Accounts.Api._Broker
                     .SetBrokerOptions(broker => broker.Host = configuration.GetValue<string>("Broker:Host")),
                 clients => clients
                     .Add<ListAccounts>()
-                    .Add<GetAccountRequest>()
+                    .Add<GetAccount>()
                     .Add<CreateAccount>()
                     .Add<UpdateAccount>()
                     .Add<DeleteAccount>());

@@ -11,10 +11,10 @@ namespace Accounts.Api.Services.AccountService.Handlers
 {
     public class GetHandler : QueryHandler<Get, Account>
     {
-        private readonly IRequestClient<GetAccountRequest> _client;
+        private readonly IRequestClient<GetAccount> _client;
         private readonly IAccountMapper _mapper;
 
-        public GetHandler(IRequestClient<GetAccountRequest> client, IAccountMapper mapper)
+        public GetHandler(IRequestClient<GetAccount> client, IAccountMapper mapper)
         {
             _client = client;
             _mapper = mapper;
