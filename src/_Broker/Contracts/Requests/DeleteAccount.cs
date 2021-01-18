@@ -1,6 +1,6 @@
 ﻿namespace Accounts.Requests
 {
-    public interface DeleteAccountRequest
+    public interface DeleteAccount
     {
         string Id { get; set; }
     }

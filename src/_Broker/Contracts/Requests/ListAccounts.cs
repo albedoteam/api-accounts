@@ -1,6 +1,6 @@
 ﻿namespace Accounts.Requests
 {
-    public interface ListAccountsRequest
+    public interface ListAccounts
     {
         bool ShowDeleted { get; set; }
         int Page { get; set; }

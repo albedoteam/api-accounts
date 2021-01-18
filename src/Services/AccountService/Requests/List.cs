@@ -4,9 +4,10 @@ using MediatR;
 
 namespace Accounts.Api.Services.AccountService.Requests
 {
-    public class GetAccount : IRequest<Response<Account>>
+    public class List : IRequest<Response<PagedAccounts>>
     {
-        public string Id { get; set; }
         public bool ShowDeleted { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace Accounts.Api.Controllers
             [FromQuery] int? page,
             [FromQuery] int? pageSize)
         {
-            var response = await _mediator.Send(new ListAccounts
+            var response = await _mediator.Send(new List
             {
                 ShowDeleted = showDeleted,
                 Page = page ?? 1,
@@ -44,7 +44,7 @@ namespace Accounts.Api.Controllers
         [HttpGet("{id}", Name = "Get")]
         public async Task<ActionResult<Account>> Get(string id, [FromQuery] bool showDeleted)
         {
-            var response = await _mediator.Send(new GetAccount {Id = id, ShowDeleted = showDeleted});
+            var response = await _mediator.Send(new Get {Id = id, ShowDeleted = showDeleted});
 
             if (response.HasError)
                 return BadRequest(response.Errors);
@@ -56,7 +56,7 @@ namespace Accounts.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Account>> Post(CreateAccount request)
+        public async Task<ActionResult<Account>> Post(Create request)
         {
             var response = await _mediator.Send(request);
 
@@ -70,7 +70,7 @@ namespace Accounts.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id, UpdateAccount request)
+        public async Task<IActionResult> Put(string id, Update request)
         {
             if (id != request.Id)
                 return BadRequest();
@@ -89,7 +89,7 @@ namespace Accounts.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var response = await _mediator.Send(new DeleteAccount {Id = id});
+            var response = await _mediator.Send(new Delete {Id = id});
 
             if (response.HasError)
                 return BadRequest(response.Errors);

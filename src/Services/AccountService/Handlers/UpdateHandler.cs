@@ -10,18 +10,18 @@ using MassTransit;
 
 namespace Accounts.Api.Services.AccountService.Handlers
 {
-    public class UpdateHandler : CommandHandler<UpdateAccount, Account>
+    public class UpdateHandler : CommandHandler<Update, Account>
     {
-        private readonly IRequestClient<UpdateAccountRequest> _client;
+        private readonly IRequestClient<UpdateAccount> _client;
         private readonly IAccountMapper _mapper;
 
-        public UpdateHandler(IRequestClient<UpdateAccountRequest> client, IAccountMapper mapper)
+        public UpdateHandler(IRequestClient<UpdateAccount> client, IAccountMapper mapper)
         {
             _client = client;
             _mapper = mapper;
         }
 
-        protected override async Task<Account> Handle(UpdateAccount request)
+        protected override async Task<Account> Handle(Update request)
         {
             var (accountUpdatedResponse, accountNotFoundResponse) =
                 await _client.GetResponse<AccountUpdated, AccountNotFound>(_mapper.MapRequestToBroker(request));

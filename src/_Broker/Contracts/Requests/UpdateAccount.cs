@@ -1,6 +1,6 @@
 ﻿namespace Accounts.Requests
 {
-    public interface UpdateAccountRequest
+    public interface UpdateAccount
     {
         string Id { get; set; }
         string Name { get; set; }

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Accounts.Api.Services.AccountService.Requests
 {
-    public class DeleteAccount : IRequest<Response<Account>>
+    public class Delete : IRequest<Response<Account>>
     {
         public string Id { get; set; }
     }

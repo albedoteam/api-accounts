@@ -9,7 +9,7 @@ using MassTransit;
 
 namespace Accounts.Api.Services.AccountService.Handlers
 {
-    public class GetHandler : QueryHandler<GetAccount, Account>
+    public class GetHandler : QueryHandler<Get, Account>
     {
         private readonly IRequestClient<GetAccountRequest> _client;
         private readonly IAccountMapper _mapper;
@@ -20,7 +20,7 @@ namespace Accounts.Api.Services.AccountService.Handlers
             _mapper = mapper;
         }
 
-        protected override async Task<Account> Handle(GetAccount request)
+        protected override async Task<Account> Handle(Get request)
         {
             var (accountResponse, notFoundResponse) =
                 await _client.GetResponse<AccountResponse, AccountNotFound>(_mapper.MapRequestToBroker(request));

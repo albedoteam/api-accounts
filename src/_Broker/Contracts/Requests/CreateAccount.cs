@@ -1,6 +1,6 @@
 ﻿namespace Accounts.Requests
 {
-    public interface CreateAccountRequest
+    public interface CreateAccount
     {
         string Name { get; set; }
         string Description { get; set; }

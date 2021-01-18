@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Accounts.Api.Services.AccountService.Requests
 {
-    public class CreateAccount : IRequest<Response<Account>>
+    public class Create : IRequest<Response<Account>>
     {
         public string Name { get; set; }
         public string Description { get; set; }

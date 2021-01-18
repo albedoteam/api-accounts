@@ -10,18 +10,18 @@ using MassTransit;
 
 namespace Accounts.Api.Services.AccountService.Handlers
 {
-    public class DeleteHandler : CommandHandler<DeleteAccount, Account>
+    public class DeleteHandler : CommandHandler<Delete, Account>
     {
-        private readonly IRequestClient<DeleteAccountRequest> _client;
+        private readonly IRequestClient<DeleteAccount> _client;
         private readonly IAccountMapper _mapper;
 
-        public DeleteHandler(IRequestClient<DeleteAccountRequest> client, IAccountMapper mapper)
+        public DeleteHandler(IRequestClient<DeleteAccount> client, IAccountMapper mapper)
         {
             _client = client;
             _mapper = mapper;
         }
 
-        protected override async Task<Account> Handle(DeleteAccount request)
+        protected override async Task<Account> Handle(Delete request)
         {
             var (accountDeletedResponse, accountNotFoundResponse) =
                 await _client.GetResponse<AccountDeleted, AccountNotFound>(_mapper.MapRequestToBroker(request));

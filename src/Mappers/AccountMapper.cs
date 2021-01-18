@@ -21,11 +21,11 @@ namespace Accounts.Api.Mappers
                 cfg.CreateMap<Account, AccountResponse>().ReverseMap();
 
                 // MediatR to Broker
-                cfg.CreateMap<CreateAccount, CreateAccountRequest>().ReverseMap();
-                cfg.CreateMap<DeleteAccount, DeleteAccountRequest>().ReverseMap();
-                cfg.CreateMap<UpdateAccount, UpdateAccountRequest>().ReverseMap();
-                cfg.CreateMap<GetAccount, GetAccountRequest>().ReverseMap();
-                cfg.CreateMap<ListAccounts, ListAccountsRequest>().ReverseMap();
+                cfg.CreateMap<Create, CreateAccount>().ReverseMap();
+                cfg.CreateMap<Delete, DeleteAccount>().ReverseMap();
+                cfg.CreateMap<Update, UpdateAccount>().ReverseMap();
+                cfg.CreateMap<Get, GetAccountRequest>().ReverseMap();
+                cfg.CreateMap<List, ListAccounts>().ReverseMap();
                 cfg.CreateMap<Account, AccountDeleted>().ReverseMap();
                 cfg.CreateMap<Account, AccountUpdated>().ReverseMap();
             });
@@ -53,29 +53,29 @@ namespace Accounts.Api.Mappers
             return _mapper.Map<List<AccountResponse>, List<Account>>(response);
         }
 
-        public CreateAccountRequest MapRequestToBroker(CreateAccount request)
+        public CreateAccount MapRequestToBroker(Create request)
         {
-            return _mapper.Map<CreateAccount, CreateAccountRequest>(request);
+            return _mapper.Map<Create, CreateAccount>(request);
         }
 
-        public DeleteAccountRequest MapRequestToBroker(DeleteAccount request)
+        public DeleteAccount MapRequestToBroker(Delete request)
         {
-            return _mapper.Map<DeleteAccount, DeleteAccountRequest>(request);
+            return _mapper.Map<Delete, DeleteAccount>(request);
         }
 
-        public UpdateAccountRequest MapRequestToBroker(UpdateAccount request)
+        public UpdateAccount MapRequestToBroker(Update request)
         {
-            return _mapper.Map<UpdateAccount, UpdateAccountRequest>(request);
+            return _mapper.Map<Update, UpdateAccount>(request);
         }
 
-        public GetAccountRequest MapRequestToBroker(GetAccount request)
+        public GetAccountRequest MapRequestToBroker(Get request)
         {
-            return _mapper.Map<GetAccount, GetAccountRequest>(request);
+            return _mapper.Map<Get, GetAccountRequest>(request);
         }
 
-        public ListAccountsRequest MapRequestToBroker(ListAccounts request)
+        public ListAccounts MapRequestToBroker(List request)
         {
-            return _mapper.Map<ListAccounts, ListAccountsRequest>(request);
+            return _mapper.Map<List, ListAccounts>(request);
         }
     }
 }

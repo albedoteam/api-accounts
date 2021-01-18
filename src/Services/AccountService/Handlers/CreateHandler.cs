@@ -10,18 +10,18 @@ using MassTransit;
 
 namespace Accounts.Api.Services.AccountService.Handlers
 {
-    public class CreateHandler : CommandHandler<CreateAccount, Account>
+    public class CreateHandler : CommandHandler<Create, Account>
     {
-        private readonly IRequestClient<CreateAccountRequest> _client;
+        private readonly IRequestClient<CreateAccount> _client;
         private readonly IAccountMapper _mapper;
 
-        public CreateHandler(IRequestClient<CreateAccountRequest> client, IAccountMapper mapper)
+        public CreateHandler(IRequestClient<CreateAccount> client, IAccountMapper mapper)
         {
             _client = client;
             _mapper = mapper;
         }
 
-        protected override async Task<Account> Handle(CreateAccount request)
+        protected override async Task<Account> Handle(Create request)
         {
             var (accountResponse, accountExistsResponse) =
                 await _client.GetResponse<AccountResponse, AccountExists>(_mapper.MapRequestToBroker(request));

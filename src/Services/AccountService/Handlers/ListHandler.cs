@@ -9,18 +9,18 @@ using MassTransit;
 
 namespace Accounts.Api.Services.AccountService.Handlers
 {
-    public class ListHandler : QueryHandler<ListAccounts, PagedAccounts>
+    public class ListHandler : QueryHandler<List, PagedAccounts>
     {
-        private readonly IRequestClient<ListAccountsRequest> _client;
+        private readonly IRequestClient<ListAccounts> _client;
         private readonly IAccountMapper _mapper;
 
-        public ListHandler(IRequestClient<ListAccountsRequest> client, IAccountMapper mapper)
+        public ListHandler(IRequestClient<ListAccounts> client, IAccountMapper mapper)
         {
             _client = client;
             _mapper = mapper;
         }
 
-        protected override async Task<PagedAccounts> Handle(ListAccounts request)
+        protected override async Task<PagedAccounts> Handle(List request)
         {
             var (itemsResponse, notFoundResponse) =
                 await _client.GetResponse<ListAccountsResponse, AccountNotFound>(

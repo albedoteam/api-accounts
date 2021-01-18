@@ -15,11 +15,11 @@ namespace Accounts.Api._Broker
                 configure => configure
                     .SetBrokerOptions(broker => broker.Host = configuration.GetValue<string>("Broker:Host")),
                 clients => clients
-                    .Add<ListAccountsRequest>()
+                    .Add<ListAccounts>()
                     .Add<GetAccountRequest>()
-                    .Add<CreateAccountRequest>()
-                    .Add<UpdateAccountRequest>()
-                    .Add<DeleteAccountRequest>());
+                    .Add<CreateAccount>()
+                    .Add<UpdateAccount>()
+                    .Add<DeleteAccount>());
 
             return services;
         }

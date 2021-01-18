@@ -12,14 +12,14 @@ namespace Accounts.Api.Mappers.Abstractions
         // Broker to Model
         Account MapResponseToModel(AccountResponse response);
         List<Account> MapResponseToModel(List<AccountResponse> response);
-
-        // MediatR to Broker
-        CreateAccountRequest MapRequestToBroker(CreateAccount request);
-        DeleteAccountRequest MapRequestToBroker(DeleteAccount request);
-        UpdateAccountRequest MapRequestToBroker(UpdateAccount request);
-        GetAccountRequest MapRequestToBroker(GetAccount request);
-        ListAccountsRequest MapRequestToBroker(ListAccounts request);
         Account MapResponseToModel(AccountDeleted response);
         Account MapResponseToModel(AccountUpdated response);
+
+        // MediatR to Broker
+        CreateAccount MapRequestToBroker(Create request);
+        DeleteAccount MapRequestToBroker(Delete request);
+        UpdateAccount MapRequestToBroker(Update request);
+        GetAccountRequest MapRequestToBroker(Get request);
+        ListAccounts MapRequestToBroker(List request);
     }
 }
