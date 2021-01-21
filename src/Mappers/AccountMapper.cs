@@ -2,9 +2,9 @@
 using Accounts.Api.Mappers.Abstractions;
 using Accounts.Api.Models;
 using Accounts.Api.Services.AccountService.Requests;
-using Accounts.Events;
-using Accounts.Requests;
-using Accounts.Responses;
+using AlbedoTeam.Accounts.Contracts.Events;
+using AlbedoTeam.Accounts.Contracts.Requests;
+using AlbedoTeam.Accounts.Contracts.Responses;
 using AutoMapper;
 
 namespace Accounts.Api.Mappers

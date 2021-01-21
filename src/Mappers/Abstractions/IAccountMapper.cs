@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Accounts.Api.Models;
 using Accounts.Api.Services.AccountService.Requests;
-using Accounts.Events;
-using Accounts.Requests;
-using Accounts.Responses;
+using AlbedoTeam.Accounts.Contracts.Events;
+using AlbedoTeam.Accounts.Contracts.Requests;
+using AlbedoTeam.Accounts.Contracts.Responses;
 
 namespace Accounts.Api.Mappers.Abstractions
 {

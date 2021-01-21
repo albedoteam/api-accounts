@@ -1,9 +1,10 @@
 using System.Text.Json.Serialization;
-using Accounts.Api._Broker;
 using Accounts.Api.Mappers;
+using AlbedoTeam.Accounts.Contracts.Requests;
 using AlbedoTeam.Sdk.Documentation;
 using AlbedoTeam.Sdk.ExceptionHandler;
 using AlbedoTeam.Sdk.FailFast;
+using AlbedoTeam.Sdk.MessageProducer;
 using AlbedoTeam.Sdk.Validations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,19 +27,28 @@ namespace Accounts.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDocumentation(cfg =>
+            {
+                cfg.Title = "Accounts Domain API";
+                cfg.Description = "codiname: Demiurge";
+            });
+
+            services.AddProducer(
+                configure => configure
+                    .SetBrokerOptions(broker => broker.Host = Configuration.GetValue<string>("Broker:Host")),
+                clients => clients
+                    .Add<ListAccounts>()
+                    .Add<GetAccount>()
+                    .Add<CreateAccount>()
+                    .Add<UpdateAccount>()
+                    .Add<DeleteAccount>());
+
+            services.AddMappers();
             services.AddValidators(GetType().Assembly.FullName);
             services.AddFailFastRequest(typeof(Startup));
 
-            services.AddDocumentation(cfg =>
-            {
-                cfg.Title = "Accounts Domain Api";
-                cfg.Description = "Demiurge - Accounts Management";
-            });
-
-            services.AddMappers();
-            services.AddMessageBroker(Configuration);
-
             services.AddCors();
+
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.IgnoreNullValues = true;

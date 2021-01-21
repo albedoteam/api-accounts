@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
+using Accounts.Api.Extensions;
 using Accounts.Api.Mappers.Abstractions;
 using Accounts.Api.Models;
 using Accounts.Api.Services.AccountService.Requests;
-using Accounts.Requests;
-using Accounts.Responses;
+using AlbedoTeam.Accounts.Contracts.Requests;
+using AlbedoTeam.Accounts.Contracts.Responses;
+using AlbedoTeam.Sdk.FailFast;
 using AlbedoTeam.Sdk.FailFast.Abstractions;
 using MassTransit;
 
@@ -20,27 +22,25 @@ namespace Accounts.Api.Services.AccountService.Handlers
             _mapper = mapper;
         }
 
-        protected override async Task<PagedAccounts> Handle(List request)
+        protected override async Task<Result<PagedAccounts>> Handle(List request)
         {
-            var (itemsResponse, notFoundResponse) =
-                await _client.GetResponse<ListAccountsResponse, AccountNotFound>(
-                    _mapper.MapRequestToBroker(request));
+            var (successResponse, errorResponse) = await _client.GetResponse<ListAccountsResponse, ErrorResponse>(
+                _mapper.MapRequestToBroker(request));
 
-            if (itemsResponse.IsCompletedSuccessfully)
+            if (errorResponse.IsCompletedSuccessfully)
+                return await errorResponse.Parse<PagedAccounts>();
+
+            var accounts = (await successResponse).Message;
+            var paged = new PagedAccounts
             {
-                var response = (await itemsResponse).Message;
-                return new PagedAccounts
-                {
-                    Page = response.Page,
-                    PageSize = response.PageSize,
-                    TotalPages = response.TotalPages,
-                    RecordsInPage = response.RecordsInPage,
-                    Items = _mapper.MapResponseToModel(response.Items)
-                };
-            }
+                Page = accounts.Page,
+                PageSize = accounts.PageSize,
+                TotalPages = accounts.TotalPages,
+                RecordsInPage = accounts.RecordsInPage,
+                Items = _mapper.MapResponseToModel(accounts.Items)
+            };
 
-            await notFoundResponse;
-            return null; // returning null the Response.NotFound will be true
+            return new Result<PagedAccounts>(paged);
         }
     }
 }

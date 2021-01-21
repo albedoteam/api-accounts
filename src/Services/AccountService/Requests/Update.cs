@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Accounts.Api.Services.AccountService.Requests
 {
-    public class Update : IRequest<Response<Account>>
+    public class Update : IRequest<Result<Account>>
     {
         public string Id { get; set; }
         public string Name { get; set; }

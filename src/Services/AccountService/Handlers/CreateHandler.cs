@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
+using Accounts.Api.Extensions;
 using Accounts.Api.Mappers.Abstractions;
 using Accounts.Api.Models;
 using Accounts.Api.Services.AccountService.Requests;
-using Accounts.Requests;
-using Accounts.Responses;
-using AlbedoTeam.Sdk.ExceptionHandler.Exceptions;
+using AlbedoTeam.Accounts.Contracts.Requests;
+using AlbedoTeam.Accounts.Contracts.Responses;
+using AlbedoTeam.Sdk.FailFast;
 using AlbedoTeam.Sdk.FailFast.Abstractions;
 using MassTransit;
 
@@ -21,19 +22,16 @@ namespace Accounts.Api.Services.AccountService.Handlers
             _mapper = mapper;
         }
 
-        protected override async Task<Account> Handle(Create request)
+        protected override async Task<Result<Account>> Handle(Create request)
         {
-            var (accountResponse, accountExistsResponse) =
-                await _client.GetResponse<AccountResponse, AccountExists>(_mapper.MapRequestToBroker(request));
+            var (successResponse, errorResponse) =
+                await _client.GetResponse<AccountResponse, ErrorResponse>(_mapper.MapRequestToBroker(request));
 
-            if (accountExistsResponse.IsCompletedSuccessfully)
-            {
-                await accountExistsResponse;
-                throw new ResourceExistsException();
-            }
+            if (errorResponse.IsCompletedSuccessfully)
+                return await errorResponse.Parse<Account>();
 
-            var account = await accountResponse;
-            return _mapper.MapResponseToModel(account.Message);
+            var account = (await successResponse).Message;
+            return new Result<Account>(_mapper.MapResponseToModel(account));
         }
     }
 }

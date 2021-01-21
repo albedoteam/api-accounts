@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Accounts.Api.Models;
 using Accounts.Api.Services.AccountService.Requests;
+using AlbedoTeam.Sdk.FailFast;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
@@ -9,7 +10,7 @@ namespace Accounts.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [OpenApiTag("Demiurge - Accounts", Description = "Accounts management")]
+    [OpenApiTag("Accounts", Description = "Albedo's client accounts management")]
     public class AccountController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -32,41 +33,27 @@ namespace Accounts.Api.Controllers
                 PageSize = pageSize ?? 1
             });
 
-            if (response.HasError)
-                return BadRequest(response.Errors);
-
-            if (response.NotFound)
-                return NotFound();
-
-            return Ok(response.Result);
+            return response.HasError
+                ? HandleError(response)
+                : Ok(response.Data);
         }
 
         [HttpGet("{id}", Name = "Get")]
         public async Task<ActionResult<Account>> Get(string id, [FromQuery] bool showDeleted)
         {
             var response = await _mediator.Send(new Get {Id = id, ShowDeleted = showDeleted});
-
-            if (response.HasError)
-                return BadRequest(response.Errors);
-
-            if (response.NotFound)
-                return NotFound();
-
-            return Ok(response.Result);
+            return response.HasError
+                ? HandleError(response)
+                : Ok(response.Data);
         }
 
         [HttpPost]
         public async Task<ActionResult<Account>> Post(Create request)
         {
             var response = await _mediator.Send(request);
-
-            if (response.HasError)
-                return BadRequest(response.Errors);
-
-            if (response.Conflict)
-                return Conflict();
-
-            return CreatedAtRoute(nameof(Get), new {id = response.Result.Id}, response.Result);
+            return response.HasError
+                ? HandleError(response)
+                : CreatedAtRoute(nameof(Get), new {id = response.Data.Id}, response.Data);
         }
 
         [HttpPut("{id}")]
@@ -76,28 +63,36 @@ namespace Accounts.Api.Controllers
                 return BadRequest();
 
             var response = await _mediator.Send(request);
-
-            if (response.HasError)
-                return BadRequest(response.Errors);
-
-            if (response.NotFound)
-                return NotFound();
-
-            return NoContent();
+            return response.HasError
+                ? HandleError(response)
+                : NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             var response = await _mediator.Send(new Delete {Id = id});
+            return response.HasError
+                ? HandleError(response)
+                : NoContent();
+        }
 
-            if (response.HasError)
-                return BadRequest(response.Errors);
+        private ActionResult HandleError<T>(Result<T> response)
+        {
+            ObjectResult DefaultError()
+            {
+                return Problem(string.Join(", ", response.Errors));
+            }
 
-            if (response.NotFound)
-                return NotFound();
-
-            return NoContent();
+            return response.FailureReason switch
+            {
+                FailureReason.Conflict => Conflict(response.HasError),
+                FailureReason.BadRequest => BadRequest(response.Errors),
+                FailureReason.NotFound => NotFound(response.Errors),
+                FailureReason.InternalServerError => DefaultError(),
+                null => DefaultError(),
+                _ => DefaultError()
+            };
         }
     }
 }

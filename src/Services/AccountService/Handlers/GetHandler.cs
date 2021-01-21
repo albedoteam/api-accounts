@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
+using Accounts.Api.Extensions;
 using Accounts.Api.Mappers.Abstractions;
 using Accounts.Api.Models;
 using Accounts.Api.Services.AccountService.Requests;
-using Accounts.Requests;
-using Accounts.Responses;
+using AlbedoTeam.Accounts.Contracts.Requests;
+using AlbedoTeam.Accounts.Contracts.Responses;
+using AlbedoTeam.Sdk.FailFast;
 using AlbedoTeam.Sdk.FailFast.Abstractions;
 using MassTransit;
 
@@ -20,19 +22,16 @@ namespace Accounts.Api.Services.AccountService.Handlers
             _mapper = mapper;
         }
 
-        protected override async Task<Account> Handle(Get request)
+        protected override async Task<Result<Account>> Handle(Get request)
         {
-            var (accountResponse, notFoundResponse) =
-                await _client.GetResponse<AccountResponse, AccountNotFound>(_mapper.MapRequestToBroker(request));
+            var (successResponse, errorResponse) =
+                await _client.GetResponse<AccountResponse, ErrorResponse>(_mapper.MapRequestToBroker(request));
 
-            if (accountResponse.IsCompletedSuccessfully)
-            {
-                var item = await accountResponse;
-                return _mapper.MapResponseToModel(item.Message);
-            }
+            if (errorResponse.IsCompletedSuccessfully)
+                return await errorResponse.Parse<Account>();
 
-            await notFoundResponse;
-            return null; // returning null the Response.NotFound will be true
+            var account = (await successResponse).Message;
+            return new Result<Account>(_mapper.MapResponseToModel(account));
         }
     }
 }
