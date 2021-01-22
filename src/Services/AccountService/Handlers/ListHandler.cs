@@ -37,7 +37,10 @@ namespace Accounts.Api.Services.AccountService.Handlers
                 PageSize = accounts.PageSize,
                 TotalPages = accounts.TotalPages,
                 RecordsInPage = accounts.RecordsInPage,
-                Items = _mapper.MapResponseToModel(accounts.Items)
+                Items = _mapper.MapResponseToModel(accounts.Items),
+                FilterBy = accounts.FilterBy,
+                OrderBy = accounts.OrderBy,
+                Sorting = accounts.Sorting
             };
 
             return new Result<PagedAccounts>(paged);
