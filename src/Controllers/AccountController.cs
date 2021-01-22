@@ -38,7 +38,7 @@ namespace Accounts.Api.Controllers
                 : Ok(response.Data);
         }
 
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id:regex(^[[0-9a-fA-F]]{{24}}$)}", Name = "Get")]
         public async Task<ActionResult<Account>> Get(string id, [FromQuery] bool showDeleted)
         {
             var response = await _mediator.Send(new Get {Id = id, ShowDeleted = showDeleted});
@@ -56,7 +56,7 @@ namespace Accounts.Api.Controllers
                 : CreatedAtRoute(nameof(Get), new {id = response.Data.Id}, response.Data);
         }
         
-        [HttpPut("{id}")]
+        [HttpPut("{id:regex(^[[0-9a-fA-F]]{{24}}$)}")]
         public async Task<IActionResult> Put(string id, Update request)
         {
             if (id != request.Id)
@@ -68,7 +68,7 @@ namespace Accounts.Api.Controllers
                 : NoContent();
         }
         
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:regex(^[[0-9a-fA-F]]{{24}}$)}")]
         public async Task<IActionResult> Delete(string id)
         {
             var response = await _mediator.Send(new Delete {Id = id});
