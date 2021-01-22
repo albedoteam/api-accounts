@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AlbedoTeam.Accounts.Contracts.Common;
 using AlbedoTeam.Accounts.Contracts.Responses;
 using AlbedoTeam.Sdk.FailFast;
 using MassTransit;
