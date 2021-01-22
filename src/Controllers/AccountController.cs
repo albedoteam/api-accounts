@@ -46,7 +46,7 @@ namespace Accounts.Api.Controllers
                 ? HandleError(response)
                 : Ok(response.Data);
         }
-
+        
         [HttpPost]
         public async Task<ActionResult<Account>> Post(Create request)
         {
@@ -55,19 +55,19 @@ namespace Accounts.Api.Controllers
                 ? HandleError(response)
                 : CreatedAtRoute(nameof(Get), new {id = response.Data.Id}, response.Data);
         }
-
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(string id, Update request)
         {
             if (id != request.Id)
                 return BadRequest();
-
+        
             var response = await _mediator.Send(request);
             return response.HasError
                 ? HandleError(response)
                 : NoContent();
         }
-
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
@@ -86,7 +86,7 @@ namespace Accounts.Api.Controllers
 
             return response.FailureReason switch
             {
-                FailureReason.Conflict => Conflict(response.HasError),
+                FailureReason.Conflict => Conflict(response.Errors),
                 FailureReason.BadRequest => BadRequest(response.Errors),
                 FailureReason.NotFound => NotFound(response.Errors),
                 FailureReason.InternalServerError => DefaultError(),

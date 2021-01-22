@@ -8,15 +8,12 @@ namespace Accounts.Api.Validators.AccountValidators
         public CreateValidator()
         {
             RuleFor(c => c.Name)
-                .NotNull()
                 .NotEmpty();
 
             RuleFor(c => c.IdentificationNumber)
-                .NotNull()
                 .NotEmpty();
 
             RuleFor(c => c.Description)
-                .NotNull()
                 .NotEmpty();
         }
     }

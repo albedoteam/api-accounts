@@ -16,21 +16,21 @@ namespace Accounts.Api.Services.AccountService.Handlers
     {
         private readonly IRequestClient<DeleteAccount> _client;
         private readonly IAccountMapper _mapper;
-
+    
         public DeleteHandler(IRequestClient<DeleteAccount> client, IAccountMapper mapper)
         {
             _client = client;
             _mapper = mapper;
         }
-
+    
         protected override async Task<Result<Account>> Handle(Delete request)
         {
             var (successResponse, errorResponse) =
                 await _client.GetResponse<AccountDeleted, ErrorResponse>(_mapper.MapRequestToBroker(request));
-
+    
             if (errorResponse.IsCompletedSuccessfully)
                 return await errorResponse.Parse<Account>();
-
+    
             var accountDeleted = (await successResponse).Message;
             return new Result<Account>(_mapper.MapResponseToModel(accountDeleted));
         }

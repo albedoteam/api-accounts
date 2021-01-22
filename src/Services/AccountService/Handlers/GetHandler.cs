@@ -15,21 +15,21 @@ namespace Accounts.Api.Services.AccountService.Handlers
     {
         private readonly IRequestClient<GetAccount> _client;
         private readonly IAccountMapper _mapper;
-
+    
         public GetHandler(IRequestClient<GetAccount> client, IAccountMapper mapper)
         {
             _client = client;
             _mapper = mapper;
         }
-
+    
         protected override async Task<Result<Account>> Handle(Get request)
         {
             var (successResponse, errorResponse) =
                 await _client.GetResponse<AccountResponse, ErrorResponse>(_mapper.MapRequestToBroker(request));
-
+    
             if (errorResponse.IsCompletedSuccessfully)
                 return await errorResponse.Parse<Account>();
-
+    
             var account = (await successResponse).Message;
             return new Result<Account>(_mapper.MapResponseToModel(account));
         }

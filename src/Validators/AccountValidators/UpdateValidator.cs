@@ -1,4 +1,5 @@
-﻿using Accounts.Api.Services.AccountService.Requests;
+﻿using System.Text.RegularExpressions;
+using Accounts.Api.Services.AccountService.Requests;
 using FluentValidation;
 
 namespace Accounts.Api.Validators.AccountValidators
@@ -8,19 +9,16 @@ namespace Accounts.Api.Validators.AccountValidators
         public UpdateValidator()
         {
             RuleFor(c => c.Id)
-                .NotNull()
-                .NotEmpty();
+                .NotEmpty()
+                .Matches("^[0-9a-fA-F]{24}$", RegexOptions.IgnoreCase);
 
             RuleFor(c => c.Name)
-                .NotNull()
                 .NotEmpty();
 
             RuleFor(c => c.IdentificationNumber)
-                .NotNull()
                 .NotEmpty();
 
             RuleFor(c => c.Description)
-                .NotNull()
                 .NotEmpty();
         }
     }
