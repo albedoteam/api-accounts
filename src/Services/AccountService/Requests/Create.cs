@@ -1,10 +1,11 @@
 ﻿using Accounts.Api.Models;
+using AlbedoTeam.Accounts.Contracts.Requests;
 using AlbedoTeam.Sdk.FailFast;
 using MediatR;
 
 namespace Accounts.Api.Services.AccountService.Requests
 {
-    public class Create : IRequest<Result<Account>>
+    public class Create : IRequest<Result<Account>>, CreateAccount
     {
         public string Name { get; set; }
         public string Description { get; set; }

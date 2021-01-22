@@ -16,5 +16,4 @@ namespace Accounts.Api.Services.AccountService.Requests
         public OrderByField OrderBy { get; set; }
         public Sorting Sorting { get; set; }
     }
-    
 }
