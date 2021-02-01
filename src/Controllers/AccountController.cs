@@ -11,10 +11,10 @@ using NSwag.Annotations;
 namespace Accounts.Api.Controllers
 {
     [ApiController]
-    // [Route("api/v{version:apiVersion}/[controller]")]
+    // [Route("api/[controller]")]
     [OpenApiTag("Accounts", Description = "Albedo's client accounts management")]
     [Route("v{version:apiVersion}/[controller]")]
-    [ApiVersion("1.0", Deprecated = true)]
+    [ApiVersion("1", Deprecated = true)]
     public class AccountController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -67,7 +67,7 @@ namespace Accounts.Api.Controllers
                 ? HandleError(response)
                 : Ok(response.Data);
         }
-        
+
         [HttpPost]
         public async Task<ActionResult<Account>> Post(Create request)
         {

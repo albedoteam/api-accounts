@@ -1,5 +1,4 @@
-﻿using Accounts.Api.Mappers.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Accounts.Api.Mappers
 {
@@ -9,6 +8,8 @@ namespace Accounts.Api.Mappers
         {
             services.AddTransient<IAccountMapper, AccountMapper>();
 
+            services.AddTransient<Mappers.V2.IAccountMapper, Mappers.V2.AccountMapper>();
+            
             return services;
         }
     }

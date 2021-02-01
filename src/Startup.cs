@@ -85,9 +85,9 @@ namespace Accounts.Api
             services.AddApiVersioning(options =>
             {
                 options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.DefaultApiVersion = new ApiVersion(2, 0);
                 options.ApiVersionReader = new UrlSegmentApiVersionReader();
-
+                
                 options.ReportApiVersions = true;
             });
             

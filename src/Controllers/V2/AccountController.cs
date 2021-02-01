@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accounts.Api.Models.V2;
-using Accounts.Api.Services.AccountService.Requests;
+using Accounts.Api.Services.AccountService.Requests.V2;
 using AlbedoTeam.Accounts.Contracts.Common;
 using AlbedoTeam.Sdk.FailFast;
 using MediatR;
@@ -12,10 +12,10 @@ using Account = Accounts.Api.Models.V2.Account;
 namespace Accounts.Api.Controllers.V2
 {
     [ApiController]
-    // [Route("api/v{version:apiVersion}/[controller]")]
+    // [Route("api/[controller]")]
     [OpenApiTag("Accounts", Description = "Albedo's client accounts management")]
     [Route("v{version:apiVersion}/[controller]")]
-    [ApiVersion("2.0")]
+    [ApiVersion("2")]
     public class AccountController : ControllerBase
     {
         private readonly IMediator _mediator;

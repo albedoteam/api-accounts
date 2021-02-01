@@ -1,15 +1,15 @@
 ﻿using System.Threading.Tasks;
 using Accounts.Api.Extensions;
-using Accounts.Api.Mappers;
-using Accounts.Api.Models;
-using Accounts.Api.Services.AccountService.Requests;
+using Accounts.Api.Mappers.V2;
+using Accounts.Api.Models.V2;
+using Accounts.Api.Services.AccountService.Requests.V2;
 using AlbedoTeam.Accounts.Contracts.Requests;
 using AlbedoTeam.Accounts.Contracts.Responses;
 using AlbedoTeam.Sdk.FailFast;
 using AlbedoTeam.Sdk.FailFast.Abstractions;
 using MassTransit;
 
-namespace Accounts.Api.Services.AccountService.Handlers
+namespace Accounts.Api.Services.AccountService.Handlers.V2
 {
     public class CreateHandler : CommandHandler<Create, Account>
     {

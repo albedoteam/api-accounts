@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using Accounts.Api.Models;
-using Accounts.Api.Services.AccountService.Requests;
+using Accounts.Api.Models.V2;
+using Accounts.Api.Services.AccountService.Requests.V2;
 using AlbedoTeam.Accounts.Contracts.Events;
 using AlbedoTeam.Accounts.Contracts.Requests;
 using AlbedoTeam.Accounts.Contracts.Responses;
 using AutoMapper;
 
-namespace Accounts.Api.Mappers
+namespace Accounts.Api.Mappers.V2
 {
     public class AccountMapper : IAccountMapper
     {
@@ -17,7 +17,8 @@ namespace Accounts.Api.Mappers
             var config = new MapperConfiguration(cfg =>
             {
                 // Broker to Model
-                cfg.CreateMap<Account, AccountResponse>().ReverseMap();
+                cfg.CreateMap<Account, AccountResponse>().ReverseMap()
+                    .ForMember(a => a.AccountName, opt => opt.MapFrom(src => src.Name));
 
                 // MediatR to Broker
                 cfg.CreateMap<Create, CreateAccount>().ReverseMap();

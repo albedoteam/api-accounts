@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Accounts.Api.Extensions;
-using Accounts.Api.Mappers.Abstractions;
+using Accounts.Api.Mappers;
 using Accounts.Api.Models;
 using Accounts.Api.Services.AccountService.Requests;
 using AlbedoTeam.Accounts.Contracts.Requests;

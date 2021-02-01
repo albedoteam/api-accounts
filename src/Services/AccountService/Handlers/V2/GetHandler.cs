@@ -1,28 +1,28 @@
 ﻿using System.Threading.Tasks;
 using Accounts.Api.Extensions;
-using Accounts.Api.Mappers;
-using Accounts.Api.Models;
-using Accounts.Api.Services.AccountService.Requests;
+using Accounts.Api.Mappers.V2;
+using Accounts.Api.Models.V2;
+using Accounts.Api.Services.AccountService.Requests.V2;
 using AlbedoTeam.Accounts.Contracts.Requests;
 using AlbedoTeam.Accounts.Contracts.Responses;
 using AlbedoTeam.Sdk.FailFast;
 using AlbedoTeam.Sdk.FailFast.Abstractions;
 using MassTransit;
 
-namespace Accounts.Api.Services.AccountService.Handlers
+namespace Accounts.Api.Services.AccountService.Handlers.V2
 {
-    public class CreateHandler : CommandHandler<Create, Account>
+    public class GetHandler : QueryHandler<Get, Account>
     {
-        private readonly IRequestClient<CreateAccount> _client;
+        private readonly IRequestClient<GetAccount> _client;
         private readonly IAccountMapper _mapper;
 
-        public CreateHandler(IRequestClient<CreateAccount> client, IAccountMapper mapper)
+        public GetHandler(IRequestClient<GetAccount> client, IAccountMapper mapper)
         {
             _client = client;
             _mapper = mapper;
         }
 
-        protected override async Task<Result<Account>> Handle(Create request)
+        protected override async Task<Result<Account>> Handle(Get request)
         {
             var (successResponse, errorResponse) =
                 await _client.GetResponse<AccountResponse, ErrorResponse>(_mapper.MapRequestToBroker(request));
