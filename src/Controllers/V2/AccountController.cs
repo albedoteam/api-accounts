@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Accounts.Api.Models;
+using Accounts.Api.Models.V2;
 using Accounts.Api.Services.AccountService.Requests;
 using AlbedoTeam.Accounts.Contracts.Common;
 using AlbedoTeam.Sdk.FailFast;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
+using Account = Accounts.Api.Models.V2.Account;
 
-namespace Accounts.Api.Controllers
+namespace Accounts.Api.Controllers.V2
 {
     [ApiController]
     // [Route("api/v{version:apiVersion}/[controller]")]
     [OpenApiTag("Accounts", Description = "Albedo's client accounts management")]
     [Route("v{version:apiVersion}/[controller]")]
-    [ApiVersion("1.0", Deprecated = true)]
+    [ApiVersion("2.0")]
     public class AccountController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -59,15 +60,16 @@ namespace Accounts.Api.Controllers
                 : Ok(response.Data);
         }
 
+        
         [HttpGet("{id:regex(^[[0-9a-fA-F]]{{24}}$)}", Name = "Get")]
-        public async Task<ActionResult<Account>> Get(string id, [FromQuery] bool showDeleted)
+        public async Task<ActionResult<Account>> Get(string id)
         {
-            var response = await _mediator.Send(new Get {Id = id, ShowDeleted = showDeleted});
+            var response = await _mediator.Send(new Get {Id = id, ShowDeleted = false});
             return response.HasError
                 ? HandleError(response)
                 : Ok(response.Data);
         }
-        
+
         [HttpPost]
         public async Task<ActionResult<Account>> Post(Create request)
         {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AlbedoTeam.Accounts.Contracts.Common;
 
-namespace Accounts.Api.Models
+namespace Accounts.Api.Models.V2
 {
     public class PagedAccounts
     {
@@ -9,9 +9,9 @@ namespace Accounts.Api.Models
         public int PageSize { get; set; }
         public int RecordsInPage { get; set; }
         public int TotalPages { get; set; }
-        public Dictionary<FilterByField, string> FilterBy { get; set; }
-        public OrderByField OrderBy { get; set; }
+        public Dictionary<FilterByField, string> FilteredBy { get; set; }
+        public OrderByField OrderedBy { get; set; }
         public Sorting Sorting { get; set; }
-        public List<Account> Items { get; set; }
+        public List<Account> Records { get; set; }
     }
 }
