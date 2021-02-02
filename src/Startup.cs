@@ -1,11 +1,14 @@
 using System.Text.Json.Serialization;
+using Accounts.Api.GraphQL.AccountOperations;
 using Accounts.Api.Mappers;
+using Accounts.Api.Models;
 using AlbedoTeam.Accounts.Contracts.Requests;
 using AlbedoTeam.Sdk.Documentation;
 using AlbedoTeam.Sdk.ExceptionHandler;
 using AlbedoTeam.Sdk.FailFast;
 using AlbedoTeam.Sdk.MessageProducer;
 using AlbedoTeam.Sdk.Validations;
+using HotChocolate;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -50,15 +53,31 @@ namespace Accounts.Api
 
             services.AddCors();
 
+            services.AddScoped<GetAccountQuery>();
+            services.AddScoped<ListAccountQuery>();
+            services.AddScoped<CreateAccountMutation>();
+
+            services
+                .AddGraphQLServer()
+                .AddType<Account>()
+                .AddMutationType<CreateAccountMutation>()
+                .AddQueryType<GetAccountQuery>();
+                // .AddMutationType(mutations =>
+                // {
+                //     mutations.Include<CreateAccountMutation>();
+                // })
+                // .AddQueryType(queries =>
+                // {
+                //     queries.Include<GetAccountQuery>();
+                //     // queries.Include<ListAccountQuery>();
+                // });
+
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.IgnoreNullValues = true;
                 options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-            }).AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.Converters.Add(new StringEnumConverter());
-            });
+            }).AddNewtonsoftJson(options => { options.SerializerSettings.Converters.Add(new StringEnumConverter()); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,7 +92,11 @@ namespace Accounts.Api
             app.UseDocumentation();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapGraphQL();
+            });
         }
     }
 }
