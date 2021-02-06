@@ -15,7 +15,7 @@ namespace Accounts.Api.Controllers.V2
     // [Route("api/[controller]")]
     [OpenApiTag("Accounts", Description = "Albedo's client accounts management")]
     [Route("v{version:apiVersion}/[controller]")]
-    [ApiVersion("2")]
+    [ApiVersion("1.1")]
     public class AccountController : ControllerBase
     {
         private readonly IMediator _mediator;
