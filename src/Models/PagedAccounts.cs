@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using AlbedoTeam.Accounts.Contracts.Common;
-using AlbedoTeam.Accounts.Contracts.Requests;
 
 namespace Accounts.Api.Models
 {

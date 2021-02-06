@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Accounts.Api.Mappers;
 using AlbedoTeam.Accounts.Contracts.Requests;
 using AlbedoTeam.Sdk.Documentation;
+using AlbedoTeam.Sdk.Documentation.Models;
 using AlbedoTeam.Sdk.ExceptionHandler;
 using AlbedoTeam.Sdk.FailFast;
 using AlbedoTeam.Sdk.MessageProducer;
@@ -28,10 +29,20 @@ namespace Accounts.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDocumentation(cfg =>
+            services.AddDocumentation(apiDocument =>
             {
-                cfg.Title = "Accounts Domain API";
-                cfg.Description = "codiname: Demiurge";
+                apiDocument.Title = "Accounts Domain API";
+                apiDocument.Description = "codiname: Demiurge";
+                apiDocument.Contact = new ApiContact
+                {
+                    Name = "Albedo Team",
+                    Email = "contato@albedo.team",
+                    Url = "https://albedo.team"
+                };
+
+                apiDocument
+                    .AddVersion(1)
+                    .AddDefaultVersion();
             });
 
             services.AddProducer(
@@ -55,10 +66,7 @@ namespace Accounts.Api
                 options.JsonSerializerOptions.IgnoreNullValues = true;
                 options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-            }).AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.Converters.Add(new StringEnumConverter());
-            });
+            }).AddNewtonsoftJson(options => { options.SerializerSettings.Converters.Add(new StringEnumConverter()); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

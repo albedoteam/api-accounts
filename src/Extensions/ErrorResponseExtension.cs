@@ -14,7 +14,7 @@ namespace Accounts.Api.Extensions
         {
             var error = await errorResponse;
             var message = error.Message.ErrorMessage;
-        
+
             return error.Message.ErrorType switch
             {
                 ErrorType.AlreadyExists => new Result<T>(FailureReason.Conflict, message),
