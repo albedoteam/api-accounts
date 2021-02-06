@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accounts.Api.Models;
 using Accounts.Api.Services.AccountService.Requests;
 using AlbedoTeam.Accounts.Contracts.Common;
-using AlbedoTeam.Accounts.Contracts.Requests;
 using AlbedoTeam.Sdk.FailFast;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +11,8 @@ using NSwag.Annotations;
 namespace Accounts.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("v{version:apiVersion}/[controller]")]
+    [ApiVersion("1")]
     [OpenApiTag("Accounts", Description = "Albedo's client accounts management")]
     public class AccountController : ControllerBase
     {
@@ -37,20 +36,12 @@ namespace Accounts.Api.Controllers
         {
             var filters = new Dictionary<FilterByField, string>();
 
-            if (!string.IsNullOrWhiteSpace(name))
-            {
-                filters.Add(FilterByField.Name, name);
-            }
+            if (!string.IsNullOrWhiteSpace(name)) filters.Add(FilterByField.Name, name);
 
-            if (!string.IsNullOrWhiteSpace(description))
-            {
-                filters.Add(FilterByField.Description, description);
-            }
+            if (!string.IsNullOrWhiteSpace(description)) filters.Add(FilterByField.Description, description);
 
             if (!string.IsNullOrWhiteSpace(identificationNumber))
-            {
                 filters.Add(FilterByField.IdentificationNumber, identificationNumber);
-            }
 
             var response = await _mediator.Send(new List
             {
