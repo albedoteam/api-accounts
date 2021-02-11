@@ -8,16 +8,16 @@ namespace Accounts.Api.Controllers
     [Authorize]
     [ApiController]
     [Route("v{version:apiVersion}/[controller]")]
-    public abstract class BaseAlbedoController : ControllerBase
+    public abstract class AlbedoControllerBase : ControllerBase
     {
-        protected readonly IMediator _mediator;
+        protected readonly IMediator Mediator;
 
-        public BaseAlbedoController(IMediator mediator)
+        protected AlbedoControllerBase(IMediator mediator)
         {
-            _mediator = mediator;
+            Mediator = mediator;
         }
 
-        protected virtual ActionResult HandleError<T>(Result<T> response)
+        protected ActionResult HandleError<T>(Result<T> response)
         {
             ObjectResult DefaultError()
             {
