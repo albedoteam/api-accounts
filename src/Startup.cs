@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Converters;
+using Okta.AspNetCore;
 
 namespace Accounts.Api
 {
@@ -61,6 +62,35 @@ namespace Accounts.Api
 
             services.AddCors();
 
+            // services.AddCors(options =>
+            // {
+            //     // The CORS policy is open for testing purposes. In a production application, you should restrict it to known origins.
+            //     options.AddPolicy(
+            //         "AllowAll",
+            //         builder => builder.AllowAnyOrigin()
+            //             .AllowAnyMethod()
+            //             .AllowAnyHeader());
+            // });
+
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = OktaDefaults.ApiAuthenticationScheme;
+                    options.DefaultChallengeScheme = OktaDefaults.ApiAuthenticationScheme;
+                    options.DefaultSignInScheme = OktaDefaults.ApiAuthenticationScheme;
+                })
+                .AddOktaWebApi(new OktaWebApiOptions()
+                {
+                    OktaDomain = Configuration["Okta:OktaDomain"],
+                    // AuthorizationServerId = "aus5n97zfLKqPplTT5d6",
+                    // Audience = "api://gd-authserver"
+                    
+                    AuthorizationServerId = "default",
+                    Audience = "api://default"
+                });
+
+            services.AddAuthorization();
+
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.IgnoreNullValues = true;
@@ -79,6 +109,8 @@ namespace Accounts.Api
             app.UseGlobalExceptionHandler(loggerFactory);
             app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseDocumentation();
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

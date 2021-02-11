@@ -5,6 +5,8 @@ using Accounts.Api.Services.AccountService.Requests;
 using AlbedoTeam.Accounts.Contracts.Common;
 using AlbedoTeam.Sdk.FailFast;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
@@ -14,6 +16,7 @@ namespace Accounts.Api.Controllers
     [Route("v{version:apiVersion}/[controller]")]
     [ApiVersion("1")]
     [OpenApiTag("Accounts", Description = "Albedo's client accounts management")]
+    [Authorize(Roles = "albedo-admins")]
     public class AccountController : ControllerBase
     {
         private readonly IMediator _mediator;
