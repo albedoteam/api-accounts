@@ -12,7 +12,7 @@ namespace Accounts.Api.Validators.AccountValidators
                 .NotEmpty()
                 .Matches("^[0-9a-fA-F]{24}$", RegexOptions.IgnoreCase);
 
-            RuleFor(c => c.Name)
+            RuleFor(c => c.DisplayName)
                 .NotEmpty();
 
             RuleFor(c => c.IdentificationNumber)

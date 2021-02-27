@@ -10,6 +10,9 @@ namespace Accounts.Api.Validators.AccountValidators
             RuleFor(c => c.Name)
                 .NotEmpty();
 
+            RuleFor(c => c.DisplayName)
+                .NotEmpty();
+
             RuleFor(c => c.IdentificationNumber)
                 .NotEmpty();
 

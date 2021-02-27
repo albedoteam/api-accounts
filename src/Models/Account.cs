@@ -6,6 +6,7 @@ namespace Accounts.Api.Models
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public string DisplayName { get; set; }
         public string Description { get; set; }
         public string IdentificationNumber { get; set; }
         public bool Enabled { get; set; }

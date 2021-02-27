@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Accounts.Api.Models;
 using Accounts.Api.Services.AccountService.Requests;
-using AlbedoTeam.Accounts.Contracts.Common;
 using AlbedoTeam.Sdk.FailFast;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -24,34 +22,9 @@ namespace Accounts.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedAccounts>> List(
-            [FromQuery] bool showDeleted,
-            [FromQuery] int? page,
-            [FromQuery] int? pageSize,
-            [FromQuery] string name,
-            [FromQuery] string description,
-            [FromQuery] string identificationNumber,
-            [FromQuery] OrderByField orderBy,
-            [FromQuery] Sorting sortBy)
+        public async Task<ActionResult<Paged<Account>>> List([FromQuery] List request)
         {
-            var filters = new Dictionary<FilterByField, string>();
-
-            if (!string.IsNullOrWhiteSpace(name)) filters.Add(FilterByField.Name, name);
-
-            if (!string.IsNullOrWhiteSpace(description)) filters.Add(FilterByField.Description, description);
-
-            if (!string.IsNullOrWhiteSpace(identificationNumber))
-                filters.Add(FilterByField.IdentificationNumber, identificationNumber);
-
-            var response = await _mediator.Send(new List
-            {
-                ShowDeleted = showDeleted,
-                Page = page ?? 1,
-                PageSize = pageSize ?? 1,
-                FilterBy = filters,
-                OrderBy = orderBy,
-                Sorting = sortBy
-            });
+            var response = await _mediator.Send(request);
 
             return response.HasError
                 ? HandleError(response)

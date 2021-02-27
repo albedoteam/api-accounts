@@ -11,7 +11,7 @@ using MassTransit;
 
 namespace Accounts.Api.Services.AccountService.Handlers
 {
-    public class ListHandler : QueryHandler<List, PagedAccounts>
+    public class ListHandler : QueryHandler<List, Paged<Account>>
     {
         private readonly IRequestClient<ListAccounts> _client;
         private readonly IAccountMapper _mapper;
@@ -22,16 +22,16 @@ namespace Accounts.Api.Services.AccountService.Handlers
             _mapper = mapper;
         }
 
-        protected override async Task<Result<PagedAccounts>> Handle(List request)
+        protected override async Task<Result<Paged<Account>>> Handle(List request)
         {
             var (successResponse, errorResponse) = await _client.GetResponse<ListAccountsResponse, ErrorResponse>(
                 _mapper.MapRequestToBroker(request));
 
             if (errorResponse.IsCompletedSuccessfully)
-                return await errorResponse.Parse<PagedAccounts>();
+                return await errorResponse.Parse<Paged<Account>>();
 
             var accounts = (await successResponse).Message;
-            var paged = new PagedAccounts
+            var paged = new Paged<Account>
             {
                 Page = accounts.Page,
                 PageSize = accounts.PageSize,
@@ -43,7 +43,7 @@ namespace Accounts.Api.Services.AccountService.Handlers
                 Sorting = accounts.Sorting
             };
 
-            return new Result<PagedAccounts>(paged);
+            return new Result<Paged<Account>>(paged);
         }
     }
 }
