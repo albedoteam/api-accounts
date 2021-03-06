@@ -1,4 +1,4 @@
-﻿terraform {
+terraform {
   required_providers {
     kubernetes = {
       source  = "hashicorp/kubernetes"
@@ -13,43 +13,44 @@ provider "kubernetes" {
 
 resource "kubernetes_namespace" "accounts" {
   metadata {
-    name = "accounts-api"
+    name = var.src_name
   }
 }
 
 resource "kubernetes_deployment" "accounts" {
   metadata {
-    name = "accounts-api"
+    name      = var.src_name
     namespace = kubernetes_namespace.accounts.metadata.0.name
     labels = {
-      app = "AccountsApi"
+      app = var.deployment_label
     }
   }
 
   spec {
-    replicas = 2
+    replicas = var.replicas_count
     selector {
       match_labels = {
-        app = "accounts-api"
+        app = var.src_name
       }
     }
     template {
       metadata {
         labels = {
-          app = "accounts-api"
+          app = var.src_name
         }
       }
       spec {
         container {
-          image = "accounts-api:latest"
-          name = "accounts-api-container"
+          image             = "${var.src_name}:latest"
+          name              = "${var.src_name}-container"
           image_pull_policy = "IfNotPresent"
+          args              = ["Broker:Host=${var.broker_connection_string}"]
           port {
             container_port = 80
-            protocol = "TCP"
+            protocol       = "TCP"
           }
           env {
-            name = "ASPNETCORE_URLS"
+            name  = "ASPNETCORE_URLS"
             value = "http://+:80"
           }
         }
@@ -60,18 +61,18 @@ resource "kubernetes_deployment" "accounts" {
 
 resource "kubernetes_service" "accounts" {
   metadata {
-    name = "accounts-api"
+    name      = var.src_name
     namespace = kubernetes_namespace.accounts.metadata.0.name
     labels = {
-      app = "accounts-api"
+      app = var.src_name
     }
   }
   spec {
     type = "LoadBalancer"
     port {
-      port = "5100"
+      port        = "5100"
       target_port = "80"
-      protocol = "TCP"
+      protocol    = "TCP"
     }
     selector = {
       app = kubernetes_deployment.accounts.spec.0.template.0.metadata.0.labels.app
