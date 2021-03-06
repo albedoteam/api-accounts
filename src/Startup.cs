@@ -47,7 +47,7 @@ namespace Accounts.Api
 
             services.AddProducer(
                 configure => configure
-                    .SetBrokerOptions(broker => broker.Host = Configuration.GetValue<string>("Broker:Host")),
+                    .SetBrokerOptions(broker => broker.Host = Configuration.GetValue<string>("Broker_Host")),
                 clients => clients
                     .Add<ListAccounts>()
                     .Add<GetAccount>()

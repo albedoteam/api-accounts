@@ -44,7 +44,16 @@ resource "kubernetes_deployment" "accounts" {
           image             = "${var.src_name}:latest"
           name              = "${var.src_name}-container"
           image_pull_policy = "IfNotPresent"
-          args              = ["Broker:Host=${var.broker_connection_string}"]
+          resources {
+            limits = {
+              cpu    = "0.5"
+              memory = "512Mi"
+            }
+            requests = {
+              cpu    = "250m"
+              memory = "50Mi"
+            }
+          }
           port {
             container_port = 80
             protocol       = "TCP"
@@ -52,6 +61,10 @@ resource "kubernetes_deployment" "accounts" {
           env {
             name  = "ASPNETCORE_URLS"
             value = "http://+:80"
+          }
+          env {
+            name  = "Broker_Host"
+            value = var.broker_connection_string
           }
         }
       }
