@@ -1,19 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
-    <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
-        <AssemblyName>Accounts.Api</AssemblyName>
-        <RootNamespace>Accounts.Api</RootNamespace>
-    </PropertyGroup>
-
-    <ItemGroup>
-      <PackageReference Include="AlbedoTeam.Accounts.Contracts" Version="1.0.0-CI-20210226-160826" />
-      <PackageReference Include="AlbedoTeam.Sdk.Documentation" Version="1.0.0-CI-20210221-205220" />
-      <PackageReference Include="AlbedoTeam.Sdk.FailFast" Version="1.0.0-CI-20210221-205418" />
-      <PackageReference Include="AlbedoTeam.Sdk.MessageProducer" Version="1.0.0-CI-20210227-131634" />
-      <PackageReference Include="AlbedoTeam.Sdk.Validations" Version="1.0.0-CI-20210108-191455" />
-      <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
-      <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
-    </ItemGroup>
-    
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Accounts.Api</AssemblyName>
+    <RootNamespace>Accounts.Api</RootNamespace>
+    <UserSecretsId>7bf10e98-759c-4384-b95a-2715f8ca8317</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="AlbedoTeam.Accounts.Contracts" Version="1.0.0-CI-20210226-160826" />
+    <PackageReference Include="AlbedoTeam.Sdk.Documentation" Version="1.0.0-CI-20210221-205220" />
+    <PackageReference Include="AlbedoTeam.Sdk.FailFast" Version="1.0.0-CI-20210221-205418" />
+    <PackageReference Include="AlbedoTeam.Sdk.MessageProducer" Version="1.0.0-CI-20210227-131634" />
+    <PackageReference Include="AlbedoTeam.Sdk.Validations" Version="1.0.0-CI-20210108-191455" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
+  </ItemGroup>
 </Project>
