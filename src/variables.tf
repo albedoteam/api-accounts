@@ -10,6 +10,12 @@ variable "deployment_label" {
   default     = "AccountsApi"
 }
 
+variable "secret_name" {
+  description = "Secret name"
+  type        = string
+  default     = "accounts-secrets"
+}
+
 variable "broker_connection_string" {
   description = "Broker Connection String"
   type        = string
