@@ -1,0 +1,50 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+  imageName: 'albedoteam-containerregistry/api-accounts'
+
+stages:
+- stage: Build
+  displayName: Build and push stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+      
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        containerRegistry: 'digitalocean'
+        repository: '$(imageName)'
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
+        tags: latest
+        arguments: '--build-arg PAT=$(ARTIFACTS_PAT) --build-arg FEED_URL=$(ARTIFACTS_FEED_URL)'
+        addPipelineData: false
+
+    # - script: docker login -u $(DO_PAT) -p $(DO_PAT) registry.digitalocean.com/albedoteam-containerregistry
+    #   displayName: 'Login to DOCR'
+
+    # - task: Docker@2
+    #   displayName: Push an image to container registry
+    #   inputs:
+    #     containerRegistry: 'digitalocean'
+    #     repository: '$(imageName)'
+    #     command: 'push'
+    #     tags: |
+    #       latest
+    #     addPipelineData: false
+    
+    - script: docker login -u $(DO_PAT) -p $(DO_PAT) registry.digitalocean.com && docker push registry.digitalocean.com/$(imageName):latest
+      displayName: 'Login to DOCR and push'
