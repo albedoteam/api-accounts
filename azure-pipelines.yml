@@ -1,7 +1,3 @@
-# Docker
-# Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
 - master
 
@@ -10,7 +6,7 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
-  imageName: 'albedoteam-containerregistry/api-accounts'
+  imageName: 'albedoteam-containerregistry/accounts-api'
 
 stages:
 - stage: Build
@@ -21,7 +17,8 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-      
+
+    # building a docker image  
     - task: Docker@2
       displayName: Build an image
       inputs:
@@ -32,19 +29,57 @@ stages:
         tags: latest
         arguments: '--build-arg PAT=$(ARTIFACTS_PAT) --build-arg FEED_URL=$(ARTIFACTS_FEED_URL)'
         addPipelineData: false
-
-    # - script: docker login -u $(DO_PAT) -p $(DO_PAT) registry.digitalocean.com/albedoteam-containerregistry
-    #   displayName: 'Login to DOCR'
-
-    # - task: Docker@2
-    #   displayName: Push an image to container registry
-    #   inputs:
-    #     containerRegistry: 'digitalocean'
-    #     repository: '$(imageName)'
-    #     command: 'push'
-    #     tags: |
-    #       latest
-    #     addPipelineData: false
     
+    # pushing the image to digital ocean registry
     - script: docker login -u $(DO_PAT) -p $(DO_PAT) registry.digitalocean.com && docker push registry.digitalocean.com/$(imageName):latest
       displayName: 'Login to DOCR and push'
+
+- stage: Deploy
+  displayName: Deploy
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    # authentication with DO and saving kubeconfig
+    - script: cd /home/vsts/ && mkdir .kube
+      displayName: Create kubeconfig dir
+  
+    - task: DO-K8S-Auth@0
+      displayName: Auth to Digital Ocean k8s
+      inputs:
+        pat: 'd2bae1fd035a2aef0309a3414bda20dff89d1283b580000f4387c0d165a218e3'
+        clusterName: 'k8s-1-20-2-nyc1-rc-albedoteam'
+        configOutput: 'file'
+        outputFilePath: '/home/vsts/.kube'
+
+    - script: cd /home/vsts/.kube && mv config.yaml config
+      displayName: renaming kubeconfig file
+
+    # importing/dowloading secret vars
+    - task: DownloadSEcureFile@1
+      name: 'secret_vars'
+      inputs:
+        secureFile: rc.tfvars
+    
+    # installing terraform
+    - task: TerraformTool@0
+      inputs:
+        version: '0.14.7'
+    
+    # init 
+    - script: cd $(Build.SourcesDirectory)/src && terraform init
+      displayName: Init terraform
+    
+    # validate 
+    - script: cd $(Build.SourcesDirectory)/src && terraform validate
+      displayName: Validate terraform
+
+    # plan
+    - script: cd $(Build.SourcesDirectory)/src && terraform plan -var-file=$(secret_vars.secureFilePath)
+      displayName: Plan terraform
+
+    # apply
+    - script: cd $(Build.SourcesDirectory)/src && terraform apply -var-file=$(secret_vars.secureFilePath) --auto-approve
+      displayName: Apply terraform

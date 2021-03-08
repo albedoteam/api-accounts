@@ -4,6 +4,14 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = ">= 2.0.0"
     }
+    digitalocean = {
+      source  = "digitalocean/digitalocean"
+      version = "2.5.1"
+    }
+  }
+  backend "kubernetes" {
+    secret_suffix    = "accounts-api"
+    load_config_file = true
   }
 }
 
@@ -11,10 +19,29 @@ provider "kubernetes" {
   config_path = "~/.kube/config"
 }
 
+provider "digitalocean" {
+  token = "d2bae1fd035a2aef0309a3414bda20dff89d1283b580000f4387c0d165a218e3"
+}
+
+resource "digitalocean_container_registry_docker_credentials" "do_container_registry" {
+  registry_name = "registry.digitalocean.com/albedoteam-containerregistry"
+}
+
 resource "kubernetes_namespace" "accounts" {
   metadata {
     name = var.src_name
   }
+}
+
+resource "kubernetes_secret" "do_cr_secret" {
+  metadata {
+    name      = "${var.src_name}-do-registry"
+    namespace = kubernetes_namespace.accounts.metadata.0.name
+  }
+  data = {
+    ".dockerconfigjson" = digitalocean_container_registry_docker_credentials.do_container_registry.docker_credentials
+  }
+  type = "kubernetes.io/dockerconfigjson"
 }
 
 resource "kubernetes_secret" "accounts" {
@@ -50,8 +77,11 @@ resource "kubernetes_deployment" "accounts" {
         }
       }
       spec {
+        image_pull_secrets {
+          name = "${var.src_name}-do-registry"
+        }
         container {
-          image             = "${var.src_name}:latest"
+          image             = "${var.container_registry}${var.src_name}:latest"
           name              = "${var.src_name}-container"
           image_pull_policy = "IfNotPresent"
           resources {
@@ -122,7 +152,7 @@ resource "kubernetes_ingress" "accounts" {
       http {
 
         path {
-          path     = "/"
+          path = "/"
           backend {
             service_name = var.src_name
             service_port = var.service_port

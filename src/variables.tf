@@ -52,3 +52,9 @@ variable "replicas_count" {
   type        = number
   default     = 1
 }
+
+variable "container_registry" {
+  description = "The name/url of the container register"
+  type        = string
+  default     = "registry.digitalocean.com/albedoteam-containerregistry/"
+}
