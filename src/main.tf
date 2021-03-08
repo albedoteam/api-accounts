@@ -19,7 +19,7 @@ resource "kubernetes_namespace" "accounts" {
 
 resource "kubernetes_secret" "accounts" {
   metadata {
-    name = var.secret_name
+    name      = var.secret_name
     namespace = kubernetes_namespace.accounts.metadata.0.name
   }
   data = {
@@ -94,12 +94,41 @@ resource "kubernetes_service" "accounts" {
   spec {
     type = "LoadBalancer"
     port {
-      port        = "5200"
+      port        = var.service_port
       target_port = "80"
       protocol    = "TCP"
     }
     selector = {
       app = kubernetes_deployment.accounts.spec.0.template.0.metadata.0.labels.app
+    }
+  }
+}
+
+resource "kubernetes_ingress" "accounts" {
+  metadata {
+    name      = var.src_name
+    namespace = kubernetes_namespace.accounts.metadata.0.name
+    labels = {
+      app = var.src_name
+    }
+  }
+  spec {
+    backend {
+      service_name = var.src_name
+      service_port = var.service_port
+    }
+    rule {
+      host = "${var.environment-prefix}${var.subdomain}.${var.host}"
+      http {
+
+        path {
+          path     = "/"
+          backend {
+            service_name = var.src_name
+            service_port = var.service_port
+          }
+        }
+      }
     }
   }
 }

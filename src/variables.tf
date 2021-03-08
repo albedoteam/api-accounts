@@ -16,6 +16,30 @@ variable "secret_name" {
   default     = "accounts-secrets"
 }
 
+variable "service_port" {
+  description = "Internal service port"
+  type        = number
+  default     = 5200
+}
+
+variable "subdomain" {
+  description = "Host subdomain to expose on Ingress"
+  type        = string
+  default     = "accounts"
+}
+
+variable "environment-prefix" {
+  description = "Host environment to expose on Ingress"
+  type        = string
+  default     = "rc-"
+}
+
+variable "host" {
+  description = "Host suffix to expose on Ingress"
+  type        = string
+  default     = "albedo.team"
+}
+
 variable "broker_connection_string" {
   description = "Broker Connection String"
   type        = string
