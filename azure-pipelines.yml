@@ -50,7 +50,7 @@ stages:
       displayName: Auth to Digital Ocean k8s
       inputs:
         pat: 'd2bae1fd035a2aef0309a3414bda20dff89d1283b580000f4387c0d165a218e3'
-        clusterName: 'k8s-1-20-2-nyc1-rc-albedoteam'
+        clusterName: 'k8s-rc-albedoteam'
         configOutput: 'file'
         outputFilePath: '/home/vsts/.kube'
 
