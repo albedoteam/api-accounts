@@ -22,6 +22,12 @@ variable "service_port" {
   default     = 5200
 }
 
+variable "image-tag" {
+  description = "Image tag to be pulled from registry"
+  type        = string
+  default     = "latest"
+}
+
 variable "subdomain" {
   description = "Host subdomain to expose on Ingress"
   type        = string
@@ -31,7 +37,7 @@ variable "subdomain" {
 variable "environment-prefix" {
   description = "Host environment to expose on Ingress"
   type        = string
-  default     = "rc-"
+  default     = ""
 }
 
 variable "host" {

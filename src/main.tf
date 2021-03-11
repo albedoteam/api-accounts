@@ -81,7 +81,7 @@ resource "kubernetes_deployment" "accounts" {
           name = "${var.src_name}-do-registry"
         }
         container {
-          image             = "${var.container_registry}${var.src_name}:latest"
+          image             = "${var.container_registry}${var.src_name}:${var.image-tag}"
           name              = "${var.src_name}-container"
           image_pull_policy = "IfNotPresent"
           resources {
