@@ -32,7 +32,7 @@ namespace Accounts.Api
             services.AddDocumentation(apiDocument =>
             {
                 apiDocument.Title = "Accounts Domain API";
-                apiDocument.Description = "codiname: Demiurge :D";
+                apiDocument.Description = "codiname: Demiurge ¯\\\\_(ツ)_/¯";
                 apiDocument.Contact = new ApiContact
                 {
                     Name = "Albedo Team",
