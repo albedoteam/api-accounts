@@ -83,7 +83,7 @@ resource "kubernetes_deployment" "accounts" {
         container {
           image             = "${var.container_registry}${var.src_name}:${var.image-tag}"
           name              = "${var.src_name}-container"
-          image_pull_policy = "IfNotPresent"
+          image_pull_policy = "Always"
           resources {
             limits = {
               cpu    = "0.5"
