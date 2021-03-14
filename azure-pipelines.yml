@@ -37,8 +37,8 @@ steps:
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Build.SourcesDirectory)/src/Dockerfile'
-    artifact: 'dockerize'
+    targetPath: '$(Build.SourcesDirectory)/src/_cicd/'
+    artifact: 'cicd'
     publishLocation: 'pipeline'
 
 - task: PublishBuildArtifacts@1
