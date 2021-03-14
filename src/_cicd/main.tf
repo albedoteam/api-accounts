@@ -59,16 +59,16 @@ resource "kubernetes_deployment" "accounts" {
           image             = "${var.do_registry_name}/${var.project_name}:${var.project_image_tag}"
           name              = "${var.project_name}-container"
           image_pull_policy = "Always"
-          //          resources {
-          //            limits = {
-          //              cpu    = "0.1"
-          //              memory = "90Mi"
-          //            }
-          //            requests = {
-          //              cpu    = "0.1"
-          //              memory = "90Mi"
-          //            }
-          //          }
+          resources {
+            limits = {
+              cpu    = "100m"
+              memory = "100Mi"
+            }
+            requests = {
+              cpu    = "50m"
+              memory = "50Mi"
+            }
+          }
           port {
             container_port = 80
             protocol       = "TCP"
