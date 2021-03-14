@@ -12,6 +12,7 @@ pool:
 
 steps:
 - task: NuGetToolInstaller@1
+  displayName: install nuget tools
 
 - task: NuGetCommand@2
   displayName: restore
@@ -37,13 +38,14 @@ steps:
 #     testRunTitle: 'Testing'
 
 - task: PublishPipelineArtifact@1
+  displayName: publish cicd files
   inputs:
     targetPath: '$(Build.SourcesDirectory)/src/_cicd/'
     artifact: 'cicd'
     publishLocation: 'pipeline'
 
 - task: PublishBuildArtifacts@1
-  displayName: saving artifact
+  displayName: publish binaries
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
