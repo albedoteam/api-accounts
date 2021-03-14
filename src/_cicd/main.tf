@@ -4,10 +4,6 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = ">= 2.0.0"
     }
-    digitalocean = {
-      source  = "digitalocean/digitalocean"
-      version = "2.5.1"
-    }
   }
   backend "kubernetes" {
     secret_suffix    = "accounts-api"

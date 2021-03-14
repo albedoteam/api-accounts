@@ -25,7 +25,7 @@ namespace Accounts.Api.Controllers
         public async Task<ActionResult<string>> GetTest()
         {
             await Task.CompletedTask;
-            return Ok("ó nóiz qui traveiz :)");
+            return Ok("só pra confirmar... nem sempre precisamos de um provider. e tenho dito!");
         }
         
         [HttpGet]
