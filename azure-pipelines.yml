@@ -5,6 +5,7 @@
 
 trigger:
 - rc
+- master
 
 pool:
   vmImage: ubuntu-20.04
