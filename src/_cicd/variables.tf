@@ -40,7 +40,7 @@ variable "project_image_tag" {
 variable "project_replicas_count" {
   description = "Number of container replicas to provision."
   type        = number
-  default     = 2
+  default     = 1
 }
 
 variable "project_service_port" {
