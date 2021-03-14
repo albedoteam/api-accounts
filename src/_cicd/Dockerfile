@@ -1,7 +1,8 @@
 ﻿FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 ARG BUILD_OUTPUT
 
-COPY ${BUILD_OUTPUT}/ app/
-
 WORKDIR /app
+
+COPY ${BUILD_OUTPUT}/ .
+
 ENTRYPOINT ["dotnet", "Accounts.Api.dll"]
