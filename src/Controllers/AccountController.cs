@@ -21,6 +21,13 @@ namespace Accounts.Api.Controllers
             _mediator = mediator;
         }
         
+        [HttpGet("test")]
+        public async Task<ActionResult<string>> GetTest()
+        {
+            await Task.CompletedTask;
+            return Ok("ó nóiz qui traveiz :)");
+        }
+        
         [HttpGet]
         public async Task<ActionResult<Paged<Account>>> List([FromQuery] List request)
         {
