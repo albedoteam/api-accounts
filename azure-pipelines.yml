@@ -4,7 +4,7 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+- rc
 
 pool:
   vmImage: ubuntu-20.04
