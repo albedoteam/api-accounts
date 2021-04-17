@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using AlbedoTeam.Accounts.Contracts.Common;
-
-namespace Accounts.Api.Models
+﻿namespace Accounts.Api.Models
 {
+    using System.Collections.Generic;
+    using AlbedoTeam.Accounts.Contracts.Common;
+
     public class Paged<T> where T : class
     {
         public int Page { get; set; }

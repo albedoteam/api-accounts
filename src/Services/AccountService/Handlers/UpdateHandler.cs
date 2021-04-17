@@ -1,17 +1,17 @@
-﻿using System.Threading.Tasks;
-using Accounts.Api.Extensions;
-using Accounts.Api.Mappers.Abstractions;
-using Accounts.Api.Models;
-using Accounts.Api.Services.AccountService.Requests;
-using AlbedoTeam.Accounts.Contracts.Events;
-using AlbedoTeam.Accounts.Contracts.Requests;
-using AlbedoTeam.Accounts.Contracts.Responses;
-using AlbedoTeam.Sdk.FailFast;
-using AlbedoTeam.Sdk.FailFast.Abstractions;
-using MassTransit;
-
-namespace Accounts.Api.Services.AccountService.Handlers
+﻿namespace Accounts.Api.Services.AccountService.Handlers
 {
+    using System.Threading.Tasks;
+    using AlbedoTeam.Accounts.Contracts.Events;
+    using AlbedoTeam.Accounts.Contracts.Requests;
+    using AlbedoTeam.Accounts.Contracts.Responses;
+    using AlbedoTeam.Sdk.FailFast;
+    using AlbedoTeam.Sdk.FailFast.Abstractions;
+    using Extensions;
+    using Mappers.Abstractions;
+    using MassTransit;
+    using Models;
+    using Requests;
+
     public class UpdateHandler : CommandHandler<Update, Account>
     {
         private readonly IRequestClient<UpdateAccount> _client;

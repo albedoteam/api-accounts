@@ -1,22 +1,23 @@
-using System.Text.Json.Serialization;
-using Accounts.Api.Mappers;
-using AlbedoTeam.Accounts.Contracts.Requests;
-using AlbedoTeam.Sdk.Documentation;
-using AlbedoTeam.Sdk.Documentation.Models;
-using AlbedoTeam.Sdk.ExceptionHandler;
-using AlbedoTeam.Sdk.FailFast;
-using AlbedoTeam.Sdk.MessageProducer;
-using AlbedoTeam.Sdk.Validations;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Converters;
-
 namespace Accounts.Api
 {
+    using System.Linq;
+    using System.Text.Json.Serialization;
+    using AlbedoTeam.Sdk.Authentication;
+    using AlbedoTeam.Sdk.Cache;
+    using AlbedoTeam.Sdk.Documentation;
+    using AlbedoTeam.Sdk.Documentation.Models;
+    using AlbedoTeam.Sdk.ExceptionHandler;
+    using AlbedoTeam.Sdk.FailFast;
+    using AlbedoTeam.Sdk.Validations;
+    using Mappers;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json.Converters;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -45,21 +46,30 @@ namespace Accounts.Api
                     .AddDefaultVersion();
             });
 
-            services.AddProducer(
-                configure => configure
-                    .SetBrokerOptions(broker => broker.Host = Configuration.GetValue<string>("Broker_Host")),
-                clients => clients
-                    .Add<ListAccounts>()
-                    .Add<GetAccount>()
-                    .Add<CreateAccount>()
-                    .Add<UpdateAccount>()
-                    .Add<DeleteAccount>());
+            services.ConfigureBroker(Configuration);
+
+            services.AddCache(configure => configure.SetOptions(options =>
+            {
+                options.Host = Configuration.GetValue<string>("Cache_Host");
+                options.Port = Configuration.GetValue<int>("Cache_Port");
+                options.Password = Configuration.GetValue<string>("Cache_Secret");
+                options.InstanceName = Configuration.GetValue<string>("Cache_InstanceName");
+            }));
 
             services.AddMappers();
             services.AddValidators(GetType().Assembly.FullName);
             services.AddFailFastRequest(typeof(Startup));
 
-            services.AddCors();
+            services.AddAuth(configure => configure.SetOptions(options =>
+            {
+                options.AuthServerUrl = Configuration.GetValue<string>("IdentityServer_ApiUrl");
+                options.AuthServerId = Configuration.GetValue<string>("IdentityServer_AuthServerId");
+                options.Audience = Configuration.GetValue<string>("IdentityServer_Audience");
+
+                var allowedOrigins = Configuration.GetValue<string>("IdentityServer_AllowedOrigins");
+                if (!string.IsNullOrWhiteSpace(allowedOrigins))
+                    options.AllowedOrigins = allowedOrigins.Split(";").ToList();
+            }));
 
             services.AddControllers().AddJsonOptions(options =>
             {
@@ -77,9 +87,8 @@ namespace Accounts.Api
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseGlobalExceptionHandler(loggerFactory);
-            app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseDocumentation();
-            app.UseAuthorization();
+            app.UseAuth();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

@@ -1,10 +1,12 @@
-﻿using Accounts.Api.Models;
-using AlbedoTeam.Accounts.Contracts.Common;
-using AlbedoTeam.Sdk.FailFast;
-using MediatR;
-
-namespace Accounts.Api.Services.AccountService.Requests
+﻿namespace Accounts.Api.Services.AccountService.Requests
 {
+    using AlbedoTeam.Accounts.Contracts.Common;
+    using AlbedoTeam.Sdk.Cache.Attributes;
+    using AlbedoTeam.Sdk.FailFast;
+    using MediatR;
+    using Models;
+
+    [Cache(120)]
     public class List : IRequest<Result<Paged<Account>>>
     {
         public bool ShowDeleted { get; set; }

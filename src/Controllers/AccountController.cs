@@ -1,13 +1,13 @@
-﻿using System.Threading.Tasks;
-using Accounts.Api.Models;
-using Accounts.Api.Services.AccountService.Requests;
-using AlbedoTeam.Sdk.FailFast;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using NSwag.Annotations;
-
-namespace Accounts.Api.Controllers
+﻿namespace Accounts.Api.Controllers
 {
+    using System.Threading.Tasks;
+    using AlbedoTeam.Sdk.FailFast;
+    using MediatR;
+    using Microsoft.AspNetCore.Mvc;
+    using Models;
+    using NSwag.Annotations;
+    using Services.AccountService.Requests;
+
     [ApiController]
     [Route("v{version:apiVersion}/[controller]")]
     [ApiVersion("1")]
@@ -20,7 +20,7 @@ namespace Accounts.Api.Controllers
         {
             _mediator = mediator;
         }
-        
+
         [HttpGet]
         public async Task<ActionResult<Paged<Account>>> List([FromQuery] List request)
         {
@@ -61,6 +61,7 @@ namespace Accounts.Api.Controllers
                 : NoContent();
         }
 
+        // [Authorize(Roles = "albedo-admins")]
         [HttpDelete("{id:regex(^[[0-9a-fA-F]]{{24}}$)}")]
         public async Task<IActionResult> Delete(string id)
         {

@@ -1,9 +1,9 @@
-﻿using Accounts.Api.Models;
-using AlbedoTeam.Sdk.FailFast;
-using MediatR;
-
-namespace Accounts.Api.Services.AccountService.Requests
+﻿namespace Accounts.Api.Services.AccountService.Requests
 {
+    using AlbedoTeam.Sdk.FailFast;
+    using MediatR;
+    using Models;
+
     public class Create : IRequest<Result<Account>>
     {
         public string Name { get; set; }

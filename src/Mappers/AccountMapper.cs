@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using Accounts.Api.Mappers.Abstractions;
-using Accounts.Api.Models;
-using Accounts.Api.Services.AccountService.Requests;
-using AlbedoTeam.Accounts.Contracts.Events;
-using AlbedoTeam.Accounts.Contracts.Requests;
-using AlbedoTeam.Accounts.Contracts.Responses;
-using AutoMapper;
-
-namespace Accounts.Api.Mappers
+﻿namespace Accounts.Api.Mappers
 {
+    using System.Collections.Generic;
+    using Abstractions;
+    using AlbedoTeam.Accounts.Contracts.Events;
+    using AlbedoTeam.Accounts.Contracts.Requests;
+    using AlbedoTeam.Accounts.Contracts.Responses;
+    using AutoMapper;
+    using Models;
+    using Services.AccountService.Requests;
+
     public class AccountMapper : IAccountMapper
     {
         private readonly IMapper _mapper;

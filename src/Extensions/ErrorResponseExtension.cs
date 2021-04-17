@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using AlbedoTeam.Accounts.Contracts.Common;
-using AlbedoTeam.Accounts.Contracts.Responses;
-using AlbedoTeam.Sdk.FailFast;
-using MassTransit;
-
-namespace Accounts.Api.Extensions
+﻿namespace Accounts.Api.Extensions
 {
+    using System;
+    using System.Threading.Tasks;
+    using AlbedoTeam.Accounts.Contracts.Common;
+    using AlbedoTeam.Accounts.Contracts.Responses;
+    using AlbedoTeam.Sdk.FailFast;
+    using MassTransit;
+
     public static class ErrorResponseExtension
     {
         public static async Task<Result<T>> Parse<T>(this Task<Response<ErrorResponse>> errorResponse)
