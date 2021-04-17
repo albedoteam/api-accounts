@@ -21,7 +21,15 @@ resource "kubernetes_secret" "accounts" {
     namespace = var.namespace
   }
   data = {
-    Broker_Host = var.settings_broker_connection_string
+    Broker_Host                   = var.settings_broker_connection_string
+    Cache_Host                    = var.settings_cache_host
+    Cache_Port                    = var.settings_cache_port
+    Cache_Secret                  = var.settings_cache_secret
+    Cache_InstanceName            = var.settings_cache_instance_name
+    IdentityServer_ApiUrl         = var.settings_identity_server_api_url
+    IdentityServer_AuthServerId   = var.settings_identity_server_auth_server_id
+    IdentityServer_Audience       = var.settings_identity_server_audience
+    IdentityServer_AllowedOrigins = var.settings_identity_server_allowed_origins
   }
 }
 
