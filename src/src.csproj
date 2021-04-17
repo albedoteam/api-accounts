@@ -10,7 +10,7 @@
     <PackageReference Include="AlbedoTeam.Accounts.Contracts" Version="1.0.0-CI-20210226-160826" />
     <PackageReference Include="AlbedoTeam.Sdk.Authentication" Version="1.0.0-CI-20210331-171833" />
     <PackageReference Include="AlbedoTeam.Sdk.Documentation" Version="1.0.0-CI-20210221-205220" />
-    <PackageReference Include="AlbedoTeam.Sdk.FailFast" Version="1.0.0-CI-20210401-145122" />
+    <PackageReference Include="AlbedoTeam.Sdk.FailFast" Version="1.0.0-CI-20210417-193530" />
     <PackageReference Include="AlbedoTeam.Sdk.MessageProducer" Version="1.0.0-CI-20210404-152045" />
     <PackageReference Include="AlbedoTeam.Sdk.Validations" Version="1.0.0-CI-20210108-191455" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
