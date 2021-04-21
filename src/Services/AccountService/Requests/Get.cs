@@ -5,7 +5,7 @@
     using AlbedoTeam.Sdk.FailFast.Abstractions;
     using Models;
 
-    [Cache(120)]
+    [Cache(7200)]
     public class Get : ICachedRequest<Result<Account>>
     {
         public string Id { get; set; }

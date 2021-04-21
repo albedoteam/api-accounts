@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Models;
 
-    [Cache(120)]
+    [Cache(7200)]
     public class List : ICachedRequest<Result<Paged<Account>>>
     {
         [FromQuery]
