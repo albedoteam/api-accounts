@@ -60,16 +60,18 @@ namespace Accounts.Api
             services.AddValidators(GetType().Assembly.FullName);
             services.AddFailFastRequest(typeof(Startup));
 
-            services.AddAuth(configure => configure.SetOptions(options =>
-            {
-                options.AuthServerUrl = Configuration.GetValue<string>("IdentityServer_ApiUrl");
-                options.AuthServerId = Configuration.GetValue<string>("IdentityServer_AuthServerId");
-                options.Audience = Configuration.GetValue<string>("IdentityServer_Audience");
-
-                var allowedOrigins = Configuration.GetValue<string>("IdentityServer_AllowedOrigins");
-                if (!string.IsNullOrWhiteSpace(allowedOrigins))
-                    options.AllowedOrigins = allowedOrigins.Split(";").ToList();
-            }));
+            services.AddCors();
+            
+            // services.AddAuth(configure => configure.SetOptions(options =>
+            // {
+            //     options.AuthServerUrl = Configuration.GetValue<string>("IdentityServer_ApiUrl");
+            //     options.AuthServerId = Configuration.GetValue<string>("IdentityServer_AuthServerId");
+            //     options.Audience = Configuration.GetValue<string>("IdentityServer_Audience");
+            //
+            //     var allowedOrigins = Configuration.GetValue<string>("IdentityServer_AllowedOrigins");
+            //     if (!string.IsNullOrWhiteSpace(allowedOrigins))
+            //         options.AllowedOrigins = allowedOrigins.Split(";").ToList();
+            // }));
 
             services.AddControllers().AddJsonOptions(options =>
             {
@@ -88,8 +90,11 @@ namespace Accounts.Api
             app.UseRouting();
             app.UseGlobalExceptionHandler(loggerFactory);
             app.UseDocumentation();
-            app.UseAuth();
+            // app.UseAuth();
 
+            app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            app.UseAuthorization();
+            
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
