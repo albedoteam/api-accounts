@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Accounts.Api.Models
+﻿namespace Accounts.Api.Models
 {
+    using System;
+
     public class Account
     {
         public string Id { get; set; }
