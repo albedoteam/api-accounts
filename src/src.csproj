@@ -8,11 +8,15 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AlbedoTeam.Accounts.Contracts" Version="1.0.0-CI-20210226-160826" />
+    <PackageReference Include="AlbedoTeam.Sdk.Authentication" Version="1.0.0-CI-20210331-171833" />
     <PackageReference Include="AlbedoTeam.Sdk.Documentation" Version="1.0.0-CI-20210221-205220" />
-    <PackageReference Include="AlbedoTeam.Sdk.FailFast" Version="1.0.0-CI-20210221-205418" />
-    <PackageReference Include="AlbedoTeam.Sdk.MessageProducer" Version="1.0.0-CI-20210227-131634" />
+    <PackageReference Include="AlbedoTeam.Sdk.FailFast" Version="1.0.0-CI-20210420-155000" />
+    <PackageReference Include="AlbedoTeam.Sdk.MessageProducer" Version="1.0.0-CI-20210404-152045" />
     <PackageReference Include="AlbedoTeam.Sdk.Validations" Version="1.0.0-CI-20210108-191455" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
+    <PackageReference Include="Serilog.Sinks.Seq" Version="5.0.0" />
   </ItemGroup>
+      
 </Project>

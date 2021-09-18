@@ -1,9 +1,9 @@
-﻿using System.Text.RegularExpressions;
-using Accounts.Api.Services.AccountService.Requests;
-using FluentValidation;
-
-namespace Accounts.Api.Validators.AccountValidators
+﻿namespace Accounts.Api.Validators.AccountValidators
 {
+    using System.Text.RegularExpressions;
+    using FluentValidation;
+    using Services.AccountService.Requests;
+
     public class UpdateValidator : AbstractValidator<Update>
     {
         public UpdateValidator()

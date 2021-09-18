@@ -1,8 +1,8 @@
-﻿using Accounts.Api.Services.AccountService.Requests;
-using FluentValidation;
-
-namespace Accounts.Api.Validators.AccountValidators
+﻿namespace Accounts.Api.Validators.AccountValidators
 {
+    using FluentValidation;
+    using Services.AccountService.Requests;
+
     public class CreateValidator : AbstractValidator<Create>
     {
         public CreateValidator()

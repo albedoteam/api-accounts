@@ -1,0 +1,2 @@
+secret_suffix    = "rc-accounts-api"
+load_config_file = true

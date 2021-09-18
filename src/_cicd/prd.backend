@@ -1,0 +1,2 @@
+secret_suffix    = "prd-accounts-api"
+load_config_file = true
