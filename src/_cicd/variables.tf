@@ -40,13 +40,16 @@ variable "project_image_tag" {
 variable "project_replicas_count" {
   description = "Number of container replicas to provision."
   type        = number
-  default     = 1
 }
 
 variable "project_service_port" {
   description = "Internal service port"
   type        = number
-  default     = 5200
+}
+
+variable "environment_prefix" {
+  description = "Host environment to naming pattern"
+  type        = string
 }
 
 // project settings variables
