@@ -1,25 +1,20 @@
 ﻿namespace Accounts.Api.Mappers.Abstractions
 {
-    using System.Collections.Generic;
-    using AlbedoTeam.Accounts.Contracts.Events;
-    using AlbedoTeam.Accounts.Contracts.Requests;
-    using AlbedoTeam.Accounts.Contracts.Responses;
+    using AccountGrpc;
     using Models;
     using Services.AccountService.Requests;
 
     public interface IAccountMapper
     {
-        // Broker to Model
-        Account MapResponseToModel(AccountResponse response);
-        List<Account> MapResponseToModel(List<AccountResponse> response);
-        Account MapResponseToModel(AccountDeleted response);
-        Account MapResponseToModel(AccountUpdated response);
+        // request
+        GetRequest MapRequest(Get request);
+        CreateRequest MapRequest(Create request);
+        DeleteRequest MapRequest(Delete request);
+        UpdateRequest MapRequest(Update request);
+        ListRequest MapRequest(List request);
 
-        // MediatR to Broker
-        CreateAccount MapRequestToBroker(Create request);
-        DeleteAccount MapRequestToBroker(Delete request);
-        UpdateAccount MapRequestToBroker(Update request);
-        GetAccount MapRequestToBroker(Get request);
-        ListAccounts MapRequestToBroker(List request);
+        // response
+        Account MapResponse(AccountResponse response);
+        Paged<Account> MapResponse(ListAccountsResponse response);
     }
 }

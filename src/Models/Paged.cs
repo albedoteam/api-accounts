@@ -1,7 +1,6 @@
 ﻿namespace Accounts.Api.Models
 {
     using System.Collections.Generic;
-    using AlbedoTeam.Accounts.Contracts.Common;
 
     public class Paged<T> where T : class
     {
@@ -13,5 +12,11 @@
         public string OrderBy { get; set; }
         public Sorting Sorting { get; set; }
         public List<T> Items { get; set; }
+    }
+
+    public enum Sorting
+    {
+        Asc,
+        Desc
     }
 }

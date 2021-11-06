@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package account_grpc;
+
+service Accounts {
+  rpc Get (GetRequest) returns (AccountResponse);
+  rpc List (ListRequest) returns (ListAccountsResponse);
+  rpc Create (CreateRequest) returns (AccountResponse);
+  rpc Update (UpdateRequest) returns (AccountResponse);
+  rpc Delete (DeleteRequest) returns (AccountResponse);
+}
+
+message GetRequest {
+  string id = 1;
+  bool showDeleted = 2;
+}
+
+message ListRequest {
+  bool showDeleted = 1;
+  int32 page = 2;
+  int32 pageSize = 3;
+  optional string filterBy = 4;
+  optional string orderBy = 5;
+  Sorting sorting = 6;
+}
+
+message CreateRequest {
+  string name = 1;
+  string displayName = 2;
+  string description = 3;
+  string identificationNumber = 4;
+  bool enabled = 5;
+}
+
+message UpdateRequest {
+  string id = 1;
+  string displayName = 2;
+  string description = 3;
+  string identificationNumber = 4;
+  bool enabled = 5;
+}
+
+message DeleteRequest {
+  string id = 1;
+}
+
+enum Sorting {
+  Asc = 0;
+  Desc = 1;
+}
+
+message AccountResponse {
+  string id = 1;
+  string name = 2;
+  string displayName = 3;
+  string description = 4;
+  string identificationNumber = 5;
+  bool enabled = 6;
+  google.protobuf.Timestamp createdAt = 7;
+  google.protobuf.Timestamp updatedAt = 8;
+  bool isDeleted = 9;
+  google.protobuf.Timestamp deletedAt = 10;
+}
+
+message ListAccountsResponse {
+  int32 page = 1;
+  int32 pageSize = 2;
+  int32 recordsInPage = 3;
+  int32 totalPages = 4;
+  string filterBy = 5;
+  string orderBy = 6;
+  Sorting sorting = 7;
+  repeated AccountResponse items = 8;
+}

@@ -1,22 +1,21 @@
 ﻿namespace Accounts.Api.Services.AccountService.Handlers
 {
     using System.Threading.Tasks;
-    using AlbedoTeam.Accounts.Contracts.Requests;
-    using AlbedoTeam.Accounts.Contracts.Responses;
+    using AccountGrpc;
     using AlbedoTeam.Sdk.FailFast;
     using AlbedoTeam.Sdk.FailFast.Abstractions;
     using Extensions;
+    using Grpc.Core;
     using Mappers.Abstractions;
-    using MassTransit;
     using Models;
     using Requests;
 
     public class GetHandler : QueryHandler<Get, Account>
     {
-        private readonly IRequestClient<GetAccount> _client;
+        private readonly Accounts.AccountsClient _client;
         private readonly IAccountMapper _mapper;
 
-        public GetHandler(IRequestClient<GetAccount> client, IAccountMapper mapper)
+        public GetHandler(Accounts.AccountsClient client, IAccountMapper mapper)
         {
             _client = client;
             _mapper = mapper;
@@ -24,14 +23,15 @@
 
         protected override async Task<Result<Account>> Handle(Get request)
         {
-            var (successResponse, errorResponse) =
-                await _client.GetResponse<AccountResponse, ErrorResponse>(_mapper.MapRequestToBroker(request));
-
-            if (errorResponse.IsCompletedSuccessfully)
-                return await errorResponse.Parse<Account>();
-
-            var account = (await successResponse).Message;
-            return new Result<Account>(_mapper.MapResponseToModel(account));
+            try
+            {
+                var response = await _client.GetAsync(_mapper.MapRequest(request));
+                return new Result<Account>(_mapper.MapResponse(response));
+            }
+            catch (RpcException e)
+            {
+                return e.Parse<Account>();
+            }
         }
     }
 }

@@ -38,7 +38,7 @@
             [FromHeader(Name = CustomHeaders.NoCache)]
             bool noCache)
         {
-            var response = await _mediator.Send(new Get {NoCache = noCache, Id = id, ShowDeleted = showDeleted});
+            var response = await _mediator.Send(new Get { NoCache = noCache, Id = id, ShowDeleted = showDeleted });
             return response.HasError
                 ? HandleError(response)
                 : Ok(response.Data);
@@ -50,7 +50,7 @@
             var response = await _mediator.Send(request);
             return response.HasError
                 ? HandleError(response)
-                : CreatedAtRoute(nameof(Get), new {id = response.Data.Id}, response.Data);
+                : CreatedAtRoute(nameof(Get), new { id = response.Data.Id }, response.Data);
         }
 
         [HttpPut("{id:regex(^[[0-9a-fA-F]]{{24}}$)}")]
@@ -69,7 +69,7 @@
         [HttpDelete("{id:regex(^[[0-9a-fA-F]]{{24}}$)}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var response = await _mediator.Send(new Delete {Id = id});
+            var response = await _mediator.Send(new Delete { Id = id });
             return response.HasError
                 ? HandleError(response)
                 : NoContent();

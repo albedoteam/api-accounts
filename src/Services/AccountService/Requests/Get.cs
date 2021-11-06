@@ -1,8 +1,6 @@
 ﻿namespace Accounts.Api.Services.AccountService.Requests
 {
-    using AlbedoTeam.Sdk.Cache.Attributes;
     using AlbedoTeam.Sdk.FailFast;
-    using AlbedoTeam.Sdk.FailFast.Abstractions;
     using MediatR;
     using Models;
 

@@ -1,8 +1,8 @@
 namespace Accounts.Api
 {
-    using System.Linq;
+    using System;
     using System.Text.Json.Serialization;
-    using AlbedoTeam.Sdk.Authentication;
+    using AccountGrpc;
     using AlbedoTeam.Sdk.Cache;
     using AlbedoTeam.Sdk.Documentation;
     using AlbedoTeam.Sdk.Documentation.Models;
@@ -46,7 +46,10 @@ namespace Accounts.Api
                     .AddDefaultVersion();
             });
 
-            services.ConfigureBroker(Configuration);
+            services.AddGrpcClient<Accounts.AccountsClient>(options =>
+            {
+                options.Address = new Uri("https://localhost:5001");
+            });
 
             services.AddCache(configure => configure.SetOptions(options =>
             {
@@ -61,7 +64,7 @@ namespace Accounts.Api
             services.AddFailFastRequest(typeof(Startup));
 
             services.AddCors();
-            
+
             // services.AddAuth(configure => configure.SetOptions(options =>
             // {
             //     options.AuthServerUrl = Configuration.GetValue<string>("IdentityServer_ApiUrl");
@@ -94,7 +97,7 @@ namespace Accounts.Api
 
             app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
